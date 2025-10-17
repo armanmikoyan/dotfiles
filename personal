@@ -55,6 +55,11 @@ COLOR_DEF=$'%F{34}'        # Green
 # Customize my Zsh prompt look in the terminal.
 export PROMPT='${COLOR_USR}%n ${COLOR_DIR}%~ ${COLOR_GIT}$(parse_git_branch)${COLOR_DEF} $ '
 
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
 #  WORK 
 alias fre='cd ~/media-platform/services/fre'
 alias are='cd ~/are'
