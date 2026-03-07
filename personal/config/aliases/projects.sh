@@ -1,0 +1,1 @@
+alias are='cd ~/are'
