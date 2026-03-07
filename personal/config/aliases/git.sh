@@ -24,3 +24,9 @@ gr() { git restore "${@:-.}"; }
 
 # Restore staging area (accepts files, defaults to . if no args)
 grs() { git restore --staged "${@:-.}"; }
+
+# Show diff of working directory (accepts files, defaults to . if no args)
+gd() { git diff "${@:-.}"; }
+
+# Show diff of staging area (accepts files, defaults to . if no args)
+gds() { git diff --staged "${@:-.}"; }

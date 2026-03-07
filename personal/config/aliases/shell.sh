@@ -9,8 +9,12 @@ alias cc='clear'
 
 # Reload .zshrc
 alias rrc='source ~/.zshrc && echo "zshrc reloaded"'
+
 # Open .zshrc in current shell
 alias orc='vim ~/.zshrc'
+
+# Open dotfiles in Cursor
+alias odf='cursor ~/dotfiles'
 
 # Copy my public key to the clipboard
 alias pubkey='cat ~/.ssh/id_rsa.pub | pbcopy && echo "Public key copied to clipboard."'
