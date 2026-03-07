@@ -43,7 +43,15 @@ compinit
 
 # Shows the current Git branch in the prompt
 parse_git_branch() {
-  git branch 2>/dev/null | sed -n -e 's/^\* \(.*\)/[\1]/p'
+  local branch=$(git branch 2>/dev/null | sed -n -e 's/^\* \(.*\)/\1/p')
+  if [ -n "$branch" ]; then
+    local max_len=$(( COLUMNS - 10 ))
+    if [ ${#branch} -gt $max_len ]; then
+      echo "[${branch:0:$max_len}...]"
+    else
+      echo "[$branch]"
+    fi
+  fi
 }
 
 #  Colors 
@@ -53,14 +61,40 @@ COLOR_GIT=$'%F{208}'       # Orange
 COLOR_DEF=$'%F{34}'        # Green
 
 # Customize my Zsh prompt look in the terminal.
-export PROMPT='${COLOR_USR}%n ${COLOR_DIR}%~ ${COLOR_GIT}$(parse_git_branch)${COLOR_DEF} $ '
-
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+export PROMPT='${COLOR_DEF}├─ ${COLOR_USR}[%n]
+${COLOR_DEF}├─ ${COLOR_DIR}[%~]
+${COLOR_DEF}├─ ${COLOR_GIT}$(parse_git_branch)
+${COLOR_DEF}╰─❯ $ '
 
 #  WORK 
 alias fre='cd ~/media-platform/services/fre'
-alias are='cd ~/are'
 alias services='cd ~/media-platform/services'
+
+
+export PATH="$HOME/.local/bin:$PATH"
+
+# ----  NVM ----
+export NVM_DIR="$HOME/.nvm"
+
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+
+# ---- Auto-use .nvmrc on cd ----
+autoload -U add-zsh-hook
+
+load-nvmrc() {
+  local nvmrc_path node_version
+
+  nvmrc_path="$(nvm_find_nvmrc)"
+
+  if [ -n "$nvmrc_path" ]; then
+    node_version="$(cat "$nvmrc_path")"
+
+    if [ "$(nvm version)" != "v$node_version" ]; then
+      nvm use "$node_version" >/dev/null
+    fi
+  fi
+}
+
+add-zsh-hook chpwd load-nvmrc
+load-nvmrc
