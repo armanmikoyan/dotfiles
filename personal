@@ -58,10 +58,11 @@ parse_git_branch() {
 COLOR_USR=$'%F{160}'       # Red
 COLOR_DIR=$'%F{33}'        # Blue
 COLOR_GIT=$'%F{208}'       # Orange
-COLOR_DEF=$'%F{34}'        # Green
+COLOR_DEF=$'%F{FFF}'        # Green
 
 # Customize my Zsh prompt look in the terminal.
-export PROMPT='${COLOR_DEF}├─ ${COLOR_USR}[%n]
+export PROMPT='
+${COLOR_DEF}╭─ ${COLOR_USR}[%n]
 ${COLOR_DEF}├─ ${COLOR_DIR}[%~]
 ${COLOR_DEF}├─ ${COLOR_GIT}$(parse_git_branch)
 ${COLOR_DEF}╰─❯ $ '
