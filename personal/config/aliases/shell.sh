@@ -8,7 +8,7 @@ alias .....='cd ../../../..'
 alias cc='clear'
 
 # Reload .zshrc
-alias rrc='source ~/.zshrc && echo ".zshrc Reloaded!!!"'
+alias rrc='source ~/.zshrc && echo "zshrc reloaded"'
 # Open .zshrc in current shell
 alias orc='vim ~/.zshrc'
 
