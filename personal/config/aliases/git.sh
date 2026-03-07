@@ -11,10 +11,16 @@ alias gch='git checkout'
 alias glog='git log --oneline --graph --all --decorate'
 
 # Fast working directory cleanup
-alias grh='git reset HEAD'
+alias grh='git reset --hard HEAD'
 
 # Amend commit with editing the message
 alias gam='git commit --amend'
 
 # Amend commit without editing the message
 alias gamno='git commit --amend --no-edit'
+
+# Restore working directory (accepts files, defaults to . if no args)
+gr() { git restore "${@:-.}"; }
+
+# Restore staging area (accepts files, defaults to . if no args)
+grs() { git restore --staged "${@:-.}"; }
