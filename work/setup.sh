@@ -1,12 +1,14 @@
-DIR="$(cd "$(dirname "${(%):-%x}")" && pwd)"
+# Work environment setup
+# Loads work-specific exports, aliases, secrets, and dev tools
 
-source "$DIR/config/exports.sh"
-source "$DIR/config/aliases/projects.sh"
-if [[ -f "$DIR/secrets/.env" ]]; then
-  source "$DIR/secrets/.env"
-else
-  echo "Missing: .env\n  Create it by copying the sample:\n  .env.sample -> .env"
-fi
+# Exports — Android SDK paths
+source "$DOTFILES_DIR/work/config/exports.sh"
 
-# Trust Bitdefender SSL cert on iOS simulator
+# Aliases — hot folder
+source "$DOTFILES_DIR/work/config/aliases/goto.sh"
+
+# Secrets — loads work tokens from .env (warns if missing)
+source "$DOTFILES_DIR/work/secrets/setup.sh"
+
+# iOS dev — trust Bitdefender SSL cert on simulator
 xcrun simctl keychain booted add-root-cert ~/.bitdefender-ca.pem 2>/dev/null || true

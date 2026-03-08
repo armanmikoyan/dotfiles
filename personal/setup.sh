@@ -1,17 +1,20 @@
-DIR="$(cd "$(dirname "${(%):-%x}")" && pwd)"
+# Personal environment setup
+# Loads shell config, aliases, editor sync, and secrets
 
-source "$DIR/config/exports.sh"
-source "$DIR/config/functions.sh"
-source "$DIR/config/completion.sh"
-source "$DIR/config/prompt.sh"
-source "$DIR/config/nvm.sh"
+# Shell config
+source "$DOTFILES_DIR/personal/config/exports.sh"
+source "$DOTFILES_DIR/personal/config/functions.sh"
+source "$DOTFILES_DIR/personal/config/completion.sh"
+source "$DOTFILES_DIR/personal/config/prompt.sh"
+source "$DOTFILES_DIR/personal/config/nvm.sh"
 
-source "$DIR/config/aliases/shell.sh"
-source "$DIR/config/aliases/git.sh"
-source "$DIR/config/aliases/projects.sh"
+# Aliases
+source "$DOTFILES_DIR/personal/config/aliases/shell.sh"
+source "$DOTFILES_DIR/personal/config/aliases/git.sh"
+source "$DOTFILES_DIR/personal/config/aliases/goto.sh"
 
-if [[ -f "$DIR/secrets/.env" ]]; then
-  source "$DIR/secrets/.env"
-else
-  echo "Missing: .env\n  Create it by copying the sample:\n  .env.sample -> .env"
-fi
+# Editor
+source "$DOTFILES_DIR/personal/config/editor/setup.sh"
+
+# Secrets
+source "$DOTFILES_DIR/personal/secrets/setup.sh"
