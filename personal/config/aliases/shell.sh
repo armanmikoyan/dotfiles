@@ -16,11 +16,8 @@ alias orc='vim ~/.zshrc'
 # Open dotfiles in Cursor
 alias odf='cursor ~/dotfiles'
 
-# Copy my public key to the clipboard
-alias pubkey='cat ~/.ssh/id_rsa.pub | pbcopy && echo "Public key copied to clipboard."'
-
-# Show local IP address
-alias ip='ipconfig getifaddr en0'
+# Show local IP address (tries active interfaces)
+alias ip='ipconfig getifaddr en0 2>/dev/null || ipconfig getifaddr en1 2>/dev/null || ipconfig getifaddr en7 2>/dev/null || echo "no network"'
 
 # Lock screen (sleep display immediately)
 alias afk='pmset displaysleepnow'
