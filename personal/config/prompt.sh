@@ -30,13 +30,13 @@ parse_path() {
 parse_battery() {
   local batt=$(pmset -g batt 2>/dev/null | grep -o '[0-9]*%' | head -1 | tr -d '%')
   if [[ -z "$batt" ]]; then
-    echo "%F{red}[⚡--]"
+    echo "${COLOR_BAT_LOW}[⚡--]"
   elif [[ $batt -ge 70 ]]; then
-    echo "%F{green}[⚡${batt}%%]"
+    echo "${COLOR_BAT_HIGH}[⚡${batt}%%]"
   elif [[ $batt -ge 40 ]]; then
-    echo "%F{226}[⚡${batt}%%]"
+    echo "${COLOR_BAT_MID}[⚡${batt}%%]"
   else
-    echo "%F{196}[⚡${batt}%%]"
+    echo "${COLOR_BAT_LOW}[⚡${batt}%%]"
   fi
 }
 
@@ -44,10 +44,14 @@ parse_battery() {
 COLOR_USR=$'%F{160}'       # Red
 COLOR_DIR=$'%F{33}'        # Blue
 COLOR_GIT=$'%F{208}'       # Orange
-COLOR_DEF=$'%F{FFF}'       # White
+COLOR_TIME=$'%F{141}'      # Purple
+COLOR_BAT_HIGH=$'%F{34}'   # Green (70%+)
+COLOR_BAT_MID=$'%F{226}'   # Yellow (40-69%)
+COLOR_BAT_LOW=$'%F{196}'   # Red (<40%)
+COLOR_DEF=$'%F{255}'       # White
 
 # Prompt layout
-export PROMPT='${COLOR_DEF}╭─ ${COLOR_USR}[%n] $(parse_battery)
+export PROMPT='${COLOR_DEF}╭─ ${COLOR_USR}[%n] $(parse_battery) ${COLOR_TIME}[%D{%b %d, %I:%M %p}]
 ${COLOR_DEF}├─ ${COLOR_DIR}$(parse_path)
 ${COLOR_DEF}├─ ${COLOR_GIT}$(parse_git_branch)
 ${COLOR_DEF}╰─❯ $ '
