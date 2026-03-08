@@ -1,6 +1,16 @@
 setopt PROMPT_SUBST
 
-# Shows the current Git branch in the prompt
+# Colors
+COLOR_USR=$'%F{160}'       # Red
+COLOR_DIR=$'%F{33}'        # Blue
+COLOR_GIT=$'%F{208}'       # Orange
+COLOR_TIME=$'%F{141}'      # Purple
+COLOR_BAT_HIGH=$'%F{34}'   # Green (70%+)
+COLOR_BAT_MID=$'%F{226}'   # Yellow (40-69%)
+COLOR_BAT_LOW=$'%F{196}'   # Red (<40%)
+COLOR_SYS=$'%F{117}'      # Light blue
+COLOR_DEF=$'%F{255}'       # White
+
 parse_git_branch() {
   if ! git rev-parse --is-inside-work-tree &>/dev/null; then
     echo "[git ✗]"
@@ -27,6 +37,19 @@ parse_path() {
   fi
 }
 
+parse_cpu() {
+  local total=$(sysctl -n hw.ncpu 2>/dev/null)
+  local pct=$(ps -A -o %cpu | awk '{s+=$1} END {printf "%.0f", s}')
+  local used=$(awk "BEGIN {printf \"%.1f\", $pct/100}")
+  echo "[CPU ${used}/${total} ${pct}%%]"
+}
+
+parse_mem() {
+  local used=$(vm_stat 2>/dev/null | awk '/Pages active/ {a=$3} /Pages wired/ {w=$3} END {printf "%.1f", (a+w)*4096/1073741824}')
+  local total=$(sysctl -n hw.memsize 2>/dev/null | awk '{printf "%.0f", $1/1073741824}')
+  echo "[MEM ${used}/${total}GB]"
+}
+
 parse_battery() {
   local batt=$(pmset -g batt 2>/dev/null | grep -o '[0-9]*%' | head -1 | tr -d '%')
   if [[ -z "$batt" ]]; then
@@ -40,18 +63,23 @@ parse_battery() {
   fi
 }
 
-# Colors
-COLOR_USR=$'%F{160}'       # Red
-COLOR_DIR=$'%F{33}'        # Blue
-COLOR_GIT=$'%F{208}'       # Orange
-COLOR_TIME=$'%F{141}'      # Purple
-COLOR_BAT_HIGH=$'%F{34}'   # Green (70%+)
-COLOR_BAT_MID=$'%F{226}'   # Yellow (40-69%)
-COLOR_BAT_LOW=$'%F{196}'   # Red (<40%)
-COLOR_DEF=$'%F{255}'       # White
+parse_top_line() {
+  local batt="$(parse_battery)"
+  local cpu="$(parse_cpu)"
+  local mem="$(parse_mem)"
+  local time="[%D{%b %d, %I:%M %p}]"
+
+  if [[ $COLUMNS -ge 65 ]]; then
+    echo "${batt} ${COLOR_SYS}${cpu} ${mem} ${COLOR_TIME}${time}"
+  elif [[ $COLUMNS -ge 55 ]]; then
+    echo "${batt} ${COLOR_SYS}${cpu} ${mem}"
+  else
+    echo "${batt}"
+  fi
+}
 
 # Prompt layout
-export PROMPT='${COLOR_DEF}╭─ ${COLOR_USR}[%n] $(parse_battery) ${COLOR_TIME}[%D{%b %d, %I:%M %p}]
-${COLOR_DEF}├─ ${COLOR_DIR}$(parse_path)
+export PROMPT='${COLOR_DEF}╭─ $(parse_top_line)
+${COLOR_DEF}├─ ${COLOR_USR}[%n] ${COLOR_DIR}$(parse_path)
 ${COLOR_DEF}├─ ${COLOR_GIT}$(parse_git_branch)
 ${COLOR_DEF}╰─❯ $ '
