@@ -10,5 +10,6 @@ source "$DOTFILES_DIR/work/config/aliases/goto.sh"
 # Secrets — loads work tokens from .env (warns if missing)
 source "$DOTFILES_DIR/work/secrets/setup.sh"
 
-# iOS dev — trust Bitdefender SSL cert on simulator
-xcrun simctl keychain booted add-root-cert ~/.bitdefender-ca.pem 2>/dev/null || true
+# iOS dev — trust Bitdefender SSL cert on simulator (run manually when needed)
+# xcrun simctl keychain booted add-root-cert ~/.bitdefender-ca.pem 2>/dev/null || true
+alias trust-sim-cert='xcrun simctl keychain booted add-root-cert ~/.bitdefender-ca.pem'
