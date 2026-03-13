@@ -60,4 +60,3 @@ git checkout -b "$branch"
 git commit -m "$commit_msg" --no-gpg-sign
 git push -u origin "$branch"
 git checkout main
-echo "pushed $branch"
