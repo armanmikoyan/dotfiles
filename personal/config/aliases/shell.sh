@@ -21,3 +21,6 @@ alias ip='ipconfig getifaddr en0 2>/dev/null || ipconfig getifaddr en1 2>/dev/nu
 
 # Lock screen (sleep display immediately)
 alias afk='pmset displaysleepnow'
+
+# Run dotfiles sync
+alias sync-dotfiles='$DOTFILES_DIR/sync.sh'
