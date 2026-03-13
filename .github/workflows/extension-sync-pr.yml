@@ -1,9 +1,9 @@
-name: Create extension sync PR
+name: Create sync PR
 
 on:
   push:
     branches:
-      - 'sync/extensions-*'
+      - 'sync/*'
 
 jobs:
   create-pr:
@@ -20,6 +20,6 @@ jobs:
         run: |
           DATE=$(date '+%b %d, %Y')
           gh pr create \
-            --title "sync cursor extensions" \
-            --body "Automated extension sync — $DATE. Review changes to \`extensions.txt\`." \
+            --title "sync dotfiles" \
+            --body "Automated dotfiles sync — $DATE. Review the changes below." \
             --reviewer "${{ github.repository_owner }}"

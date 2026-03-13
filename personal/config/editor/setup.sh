@@ -15,8 +15,4 @@ if ! git -C "$EDITOR_DIR" diff --quiet -- settings.json 2>/dev/null; then
 fi
 
 # ── Extensions ────────────────────────────────────────────
-# Synced daily via cron (see sync.sh), or manually: sync-extensions
-if ! crontab -l 2>/dev/null | grep -q 'editor/sync.sh'; then
-  (crontab -l 2>/dev/null; echo "0 10 * * * $EDITOR_DIR/sync.sh") | crontab -
-fi
-alias sync-extensions='$DOTFILES_DIR/personal/config/editor/sync.sh'
+# Synced daily via cron (see ~/dotfiles/sync.sh), or manually: sync-dotfiles
