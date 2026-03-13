@@ -1,4 +1,3 @@
-anysphere.cursorpyright
 anysphere.remote-containers
 anysphere.remote-ssh
 anysphere.remote-wsl
@@ -20,8 +19,6 @@ mgmcdermott.vscode-language-babel
 ms-azuretools.vscode-containers
 ms-azuretools.vscode-docker
 ms-kubernetes-tools.vscode-kubernetes-tools
-ms-python.debugpy
-ms-python.python
 ms-vscode.vscode-typescript-next
 pkief.material-icon-theme
 prisma.prisma
