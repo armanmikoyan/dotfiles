@@ -1,11 +1,33 @@
 #!/bin/bash
-# Two-way extension sync between Cursor and extensions.txt
+# ── Extension Sync ───────────────────────────────────────
+# Two-way sync between Cursor editor and extensions.txt
 # Called by ~/dotfiles/sync.sh before the general commit
+#
+# How it works:
+#   1. Compares Cursor's installed extensions against extensions.txt
+#   2. If Cursor is missing an extension from the file → installs it
+#   3. If Cursor has a new extension not in the file → adds it
+#   4. If an extension was uninstalled via Cursor UI → removes it from file
+#
+# How uninstall detection works:
+#   .last-sync stores what Cursor had at the end of the last sync.
+#   If extensions.txt has it, but Cursor doesn't, and .last-sync had it,
+#   that means it was removed via Cursor UI → remove from file.
+#   If .last-sync didn't have it, it's a new entry (e.g. new machine) → install it.
+#
+# extensions.txt:
+#   DO NOT edit manually. Use Cursor's UI to install/uninstall.
+#   If you delete the file, sync recreates it from Cursor's extensions.
+#
+# .extensions.snapshot:
+#   DO NOT edit. If deleted, sync can't detect uninstalls —
+#   it will reinstall everything from extensions.txt instead.
+#   The file is recreated automatically on the next run.
 
 DOTFILES_DIR="$HOME/dotfiles"
 EDITOR_DIR="$DOTFILES_DIR/personal/config/editor"
 EXT_FILE="$EDITOR_DIR/extensions.txt"
-LAST_SYNC="$EDITOR_DIR/.last-sync"
+LAST_SYNC="$EDITOR_DIR/.extensions.snapshot"
 
 command -v cursor &>/dev/null || exit 0
 [[ ! -f "$EXT_FILE" ]] && exit 0

@@ -1,7 +1,25 @@
 #!/bin/bash
-# Daily dotfiles sync — extensions + any other changes
-# Pushes a sync/ branch; GitHub Actions creates the PR
-# Remote is source of truth — rejected PRs are discarded on next sync
+# ── Dotfiles Sync ────────────────────────────────────────
+# Runs daily via cron (or manually: sync alias)
+# Syncs everything in ~/dotfiles and opens a PR for review
+#
+# How it works:
+#   1. Stash local changes to preserve uncommitted edits
+#   2. Reset local main to match remote (remote is source of truth)
+#   3. Re-apply stashed changes on top of clean remote state
+#   4. Run extension sync (special — talks to Cursor, see editor/sync.sh)
+#   5. Stage all changes and push a sync/ branch
+#   6. GitHub Actions creates a PR with your review requested
+#   7. Merge branch into local main so changes reflect immediately
+#
+# If a PR is rejected:
+#   Next sync resets to remote (which doesn't have the changes),
+#   but local file edits still exist on disk, so they'll be
+#   picked up and pushed again. To truly discard, undo the file edits.
+#
+# Extension sync is special because it doesn't just track files —
+# it talks to Cursor to install/uninstall extensions and update
+# extensions.txt accordingly. See personal/config/editor/sync.sh.
 
 DOTFILES_DIR="$HOME/dotfiles"
 cd "$DOTFILES_DIR" || exit 1
