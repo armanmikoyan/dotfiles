@@ -19,7 +19,7 @@
 #
 # Extension sync is special because it doesn't just track files —
 # it talks to Cursor to install/uninstall extensions and update
-# extensions.txt accordingly. See personal/config/editor/sync.sh.
+
 
 DOTFILES_DIR="$HOME/dotfiles"
 cd "$DOTFILES_DIR" || exit 1
