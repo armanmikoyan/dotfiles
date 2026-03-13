@@ -1,3 +1,6 @@
+# Deduplicate PATH entries across shell reloads
+typeset -U PATH path
+
 # Entry point for all dotfiles — sourced by ~/.zshrc
 DOTFILES_DIR="$HOME/dotfiles"
 

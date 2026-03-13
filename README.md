@@ -20,7 +20,29 @@ Personal and work shell configuration, synced across machines.
 4. Generate SSH key and add to GitHub (see `keygen` and `pubkey` in `personal/config/functions.sh`)
 5. Create `personal/secrets/.env` from `.env.sample`
 6. Create `work/secrets/.env` from `.env.sample`
-7. Run `sync-dotfiles` to install all Cursor extensions
+7. Create `~/.gitconfig.local` with your identity for this machine
+
+   ```bash
+   git config --file ~/.gitconfig.local user.name "Your Name"
+   git config --file ~/.gitconfig.local user.email "you@example.com"
+   ```
+
+8. Run `sync-dotfiles` to install all Cursor extensions
+
+## Git config
+
+Shared settings (colors, rerere, pull rebase) live in `personal/config/.gitconfig`, symlinked to `~/.gitconfig` on first terminal open.
+
+Machine-specific identity lives in `~/.gitconfig.local` (not synced). This lets you use different name/email on work vs personal machines. A warning is shown on shell startup if the file is missing.
+
+## Symlinks
+
+Managed in `personal/config/symlinks.sh`, created automatically on first terminal open:
+
+- `personal/config/.gitconfig` → `~/.gitconfig`
+- `personal/config/editor/settings.json` → `~/Library/Application Support/Cursor/User/settings.json`
+
+Existing files are backed up to `.bak` before symlinking.
 
 ## Automation
 

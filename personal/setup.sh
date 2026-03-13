@@ -13,8 +13,9 @@ source "$DOTFILES_DIR/personal/config/aliases/shell.sh"
 source "$DOTFILES_DIR/personal/config/aliases/git.sh"
 source "$DOTFILES_DIR/personal/config/aliases/goto.sh"
 
-# Editor
-source "$DOTFILES_DIR/personal/config/editor/setup.sh"
+# Symlinks
+source "$DOTFILES_DIR/personal/config/symlinks.sh"
 
 # Secrets
 source "$DOTFILES_DIR/personal/secrets/setup.sh"
+
