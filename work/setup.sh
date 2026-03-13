@@ -1,7 +1,17 @@
 # Work environment setup
 
+<<<<<<< Updated upstream
 # Exports — Android SDK paths
 source "$DOTFILES_DIR/work/config/exports.sh"
+=======
+source "$DIR/config/exports.sh"
+source "$DIR/config/aliases/projects.sh"
+if [[ -f "$DIR/secrets/.env" ]]; then
+  source "$DIR/secrets/.env"
+else
+  echo "Missing: .env\n  Create it by copying the sample:\n  .env.sample -> .env"
+fi
+>>>>>>> Stashed changes
 
 # Aliases
 source "$DOTFILES_DIR/work/config/aliases/goto.sh"
