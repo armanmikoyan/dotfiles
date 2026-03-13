@@ -12,3 +12,4 @@ if ! crontab -l 2>/dev/null | grep -q 'dotfiles/sync.sh'; then
   (crontab -l 2>/dev/null; echo "0 10 * * * $DOTFILES_DIR/sync.sh") | crontab -
 fi
 alias sync-dotfiles='$DOTFILES_DIR/sync.sh'
+sdssdds
