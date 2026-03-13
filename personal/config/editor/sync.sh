@@ -39,11 +39,3 @@ done <<< "$installed"
 
 sort -f -o "$EXT_FILE" "$EXT_FILE"
 cursor --list-extensions > "$LAST_SYNC" 2>/dev/null
-
-
-
-
-
-
-
-`asdaadsadadsadsadsas`
