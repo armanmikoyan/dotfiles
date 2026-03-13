@@ -1,15 +1,13 @@
 # Work environment setup
-# Loads work-specific exports, aliases, secrets, and dev tools
 
 # Exports — Android SDK paths
 source "$DOTFILES_DIR/work/config/exports.sh"
 
-# Aliases — hot folder
+# Aliases
 source "$DOTFILES_DIR/work/config/aliases/goto.sh"
 
-# Secrets — loads work tokens from .env (warns if missing)
+# Secrets
 source "$DOTFILES_DIR/work/secrets/setup.sh"
 
-# iOS dev — trust Bitdefender SSL cert on simulator (run manually when needed)
-# xcrun simctl keychain booted add-root-cert ~/.bitdefender-ca.pem 2>/dev/null || true
+# iOS dev — run manually when simulator is booted
 alias trust-sim-cert='xcrun simctl keychain booted add-root-cert ~/.bitdefender-ca.pem'

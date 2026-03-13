@@ -18,13 +18,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          DATE=$(date '+%b %d, %Y')
           gh pr create \
             --title "sync cursor extensions" \
-            --body "$(cat <<'EOF'
-          ## Extension sync — $(date '+%b %d, %Y')
-
-          Automated sync from local machine.
-          Review the changes to `extensions.txt` below.
-          EOF
-          )" \
+            --body "Automated extension sync — $DATE. Review changes to \`extensions.txt\`." \
             --reviewer "${{ github.repository_owner }}"
