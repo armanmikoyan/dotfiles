@@ -50,3 +50,6 @@ git push -u origin "$branch"
 git checkout main
 git merge "$branch" --no-edit
 echo "pushed $branch"
+
+
+arman ---
