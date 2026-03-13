@@ -31,4 +31,5 @@ rvest.vs-code-prettier-eslint
 sdras.night-owl
 styled-components.vscode-styled-components
 vscode-icons-team.vscode-icons
+vscodevim.vim
 xabikos.javascriptsnippets
