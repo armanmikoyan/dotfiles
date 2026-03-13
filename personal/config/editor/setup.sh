@@ -13,6 +13,3 @@ fi
 if ! git -C "$EDITOR_DIR" diff --quiet -- settings.json 2>/dev/null; then
   print -P "  %F{226}⚠ settings.json changed — commit to save%f"
 fi
-
-# ── Extensions ────────────────────────────────────────────
-# Synced daily via cron (see ~/dotfiles/sync.sh), or manually: sync-dotfiles
