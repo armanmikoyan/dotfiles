@@ -17,7 +17,7 @@ Personal and work shell configuration, synced across machines.
    ```
 
 3. Run `source ~/.zshrc`
-4. Add SSH key to GitHub
+4. Generate SSH key and add to GitHub (see `keygen` and `pubkey` in `personal/config/functions.sh`)
 5. Create `personal/secrets/.env` from `.env.sample`
 6. Create `work/secrets/.env` from `.env.sample`
 7. Run `sync-dotfiles` to install all Cursor extensions
