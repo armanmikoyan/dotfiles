@@ -14,6 +14,7 @@ dsznajder.es7-react-js-snippets
 eamodio.gitlens
 ecmel.vscode-html-css
 esbenp.prettier-vscode
+firefox-devtools.vscode-firefox-debug
 humao.rest-client
 kisstkondoros.vscode-gutter-preview
 mgmcdermott.vscode-language-babel
