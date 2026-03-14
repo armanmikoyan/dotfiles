@@ -39,13 +39,13 @@ parse_path() {
 
 parse_cpu() {
   local total=$(sysctl -n hw.ncpu 2>/dev/null)
-  local pct=$(ps -A -o %cpu | awk '{s+=$1} END {printf "%.0f", s}')
+  local pct=$(top -l 1 -n 0 -s 0 2>/dev/null | awk '/CPU usage/ {printf "%.0f", (100 - $7) * '"$total"'}')
   local used=$(awk "BEGIN {printf \"%.1f\", $pct/100}")
   echo "[CPU ${used}/${total} ${pct}%%]"
 }
 
 parse_mem() {
-  local used=$(vm_stat 2>/dev/null | awk '/Pages active/ {a=$3} /Pages wired/ {w=$3} END {printf "%.1f", (a+w)*4096/1073741824}')
+  local used=$(vm_stat 2>/dev/null | awk '/page size of/ {ps=$8} /Anonymous pages/ {a=$NF} /Pages wired/ {w=$NF} /Pages occupied by compressor/ {c=$NF} END {printf "%.1f", (a+w+c)*ps/1073741824}')
   local total=$(sysctl -n hw.memsize 2>/dev/null | awk '{printf "%.0f", $1/1073741824}')
   echo "[MEM ${used}/${total}GB]"
 }
