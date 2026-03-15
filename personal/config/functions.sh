@@ -26,3 +26,24 @@ pubkey() {
   fi
   pbcopy < "$HOME/.ssh/$1.pub" && echo "✓ $1.pub copied to clipboard"
 }
+
+# Print Unicode code point(s) for a character or string
+# Usage: codepoint ✗     → U+2717
+#        codepoint hello  → U+0068 U+0065 U+006C U+006C U+006F
+codepoint() {
+  if [[ -z "$1" ]]; then
+    echo "Usage: codepoint <char|string>"
+    return 1
+  fi
+  local str="$1" i
+  for (( i=0; i < ${#str}; i++ )); do
+    printf "U+%04X " "'${str:$i:1}"
+  done
+  echo
+}
+
+# Char or code point → UTF encoding with colored binary breakdown
+# Usage: utf-8 ✗  |  utf-8 2717  |  utf-8 -v ✗ (verbose)
+utf-8()  { python3 ~/dotfiles/personal/config/utf.py 8 "$@"; }
+utf-16() { python3 ~/dotfiles/personal/config/utf.py 16 "$@"; }
+utf-32() { python3 ~/dotfiles/personal/config/utf.py 32 "$@"; }
