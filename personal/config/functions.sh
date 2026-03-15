@@ -69,3 +69,23 @@ fromcodepoints() {
 utf-8()  { python3 ~/dotfiles/personal/config/utf.py 8 "$@"; }
 utf-16() { python3 ~/dotfiles/personal/config/utf.py 16 "$@"; }
 utf-32() { python3 ~/dotfiles/personal/config/utf.py 32 "$@"; }
+
+# URL encode/decode strings
+# Usage: urlencode "hello world"  → hello%20world
+#        urldecode "hello%20world" → hello world
+urlencode() {
+  if [[ $# -ne 1 ]]; then
+    echo 'invalid: expected 1 argument, got '$#''
+    echo 'Usage: urlencode "string" (use quotes if string has spaces)'
+    return 1
+  fi
+  python3 -c "import urllib.parse,sys; print(urllib.parse.quote(sys.argv[1], safe=''))" "$1"
+}
+urldecode() {
+  if [[ $# -ne 1 ]]; then
+    echo 'invalid: expected 1 argument, got '$#''
+    echo 'Usage: urldecode "encoded%20string" (use quotes if string has spaces)'
+    return 1
+  fi
+  python3 -c "import urllib.parse,sys; print(urllib.parse.unquote(sys.argv[1]))" "$1"
+}
