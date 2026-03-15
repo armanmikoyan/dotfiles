@@ -27,7 +27,7 @@ pubkey() {
   pbcopy < "$HOME/.ssh/$1.pub" && echo "✓ $1.pub copied to clipboard"
 }
 
-# Print Unicode code point(s) for a character or string
+# Char/string → code points
 # Usage: codepoints ✗     → U+2717
 #        codepoints hello  → U+0068 U+0065 U+006C U+006C U+006F
 codepoints() {
@@ -38,6 +38,28 @@ codepoints() {
   local str="$1" i
   for (( i=0; i < ${#str}; i++ )); do
     printf "U+%04X " "'${str:$i:1}"
+  done
+  echo
+}
+
+# Code point(s) → character(s)
+# Usage: fromcodepoints 2717           → ✗
+#        fromcodepoints U+0061 U+0062  → ab
+fromcodepoints() {
+  if [[ -z "$1" ]]; then
+    echo "Usage: fromcodepoints <hex|U+hex> ..."
+    return 1
+  fi
+  local arg
+  for arg in "$@"; do
+    local hex="${arg#[Uu]+}"
+    hex="${hex#0[xX]}"
+    if [[ ! "$hex" =~ ^[0-9a-fA-F]+$ ]]; then
+      echo "invalid code point: $arg"
+      echo "Usage: fromcodepoints <hex|U+hex> ..."
+      return 1
+    fi
+    printf "\\U$(printf '%08X' "0x$hex")"
   done
   echo
 }
