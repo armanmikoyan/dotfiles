@@ -7,9 +7,6 @@ import sys, re
 Y, C, G, D, R = '\033[93m', '\033[96m', '\033[92m', '\033[90m', '\033[0m'
 
 def resolve(s):
-    s = re.sub(r'^[Uu]\+', '', s)
-    if len(s) > 1 and re.match(r'^[0-9a-fA-F]+$', s):
-        return chr(int(s, 16))
     return s
 
 def plen(b):
@@ -33,11 +30,6 @@ def display(enc, char, verbose=False):
     cp_bin_padded = '0' * cp_pad + cp_bin_raw
     cp_bin_fmt = ' '.join(cp_bin_padded[i:i+4] for i in range(0, len(cp_bin_padded), 4))
 
-    print(f'{D}── code point ──{R}')
-    print(f'  U+              U+{cp_hex}')
-    print(f'  hex             0x{cp_hex}')
-    print(f'  bin             {cp_bin_fmt}')
-
     hex_colored = ' '.join(f'{G}{b:02X}{R}' for b in raw)
     bin_parts, data_bits = [], ''
     for b in raw:
@@ -55,9 +47,26 @@ def display(enc, char, verbose=False):
                 colored += ' '
         bin_parts.append(colored)
 
-    print(f'\n{D}── stored (UTF-{enc}) ──{R}')
-    print(f'  hex             {hex_colored}')
-    print(f'  bin             {" ".join(bin_parts)}')
+    is_ascii = enc == 8 and cp < 128
+    is_multibyte = enc == 8 and cp >= 128
+
+    n_bytes = len(raw)
+
+    if not verbose:
+        all_bits = ''.join(f'{b:08b}' for b in raw)
+        bin_nibbles = ' '.join(all_bits[i:i+4] for i in range(0, len(all_bits), 4))
+        print(f'hex -> {hex_str}')
+        print(f'bin -> {bin_nibbles}')
+        return
+
+    utf_label = f'UTF-{enc}'
+    print(f'  code point')
+    print(f'    hex           U+{cp_hex}')
+    print(f'    bin           {cp_bin_fmt}')
+    print()
+    print(f'  {utf_label}')
+    print(f'    hex           {hex_colored}')
+    print(f'    bin           {" ".join(bin_parts)}')
 
 
     if enc == 8 and data_bits:
@@ -83,72 +92,72 @@ def display(enc, char, verbose=False):
                 pos += 1
 
         if verbose:
-            rows = [
-                (f'{Y}bytes to read{R}', f'{Y}{prefix} ({n} bytes){R}'),
-            ]
-            if n > 1:
-                rows.append((f'{C}continuation{R}', f'{C}10{R}'))
-            rows.append((f'{G}code point{R}', colored_data))
+            if is_ascii:
+                print(f'\n{D}Along with the code point, UTF-8 stores:{R}')
+                print(f'{D}  {Y}{prefix}{D} — bytes to read indicator (1 byte, single byte marker){R}')
+                print(f'{D}No {C}follow marker{D} since it\'s 1 byte, and {Y}bytes to read{D} is {Y}0{D}{R}')
+                print(f'{D}(meaning 1 byte) which doesn\'t affect the value —{R}')
+                print(f'{D}that\'s why stored hex ({Y}{hex_str}{D}) matches code point ({G}U+{cp:04X}{D}).{R}')
+            else:
+                print(f'\n{D}Along with the code point, UTF-8 stores:{R}')
+                print(f'{D}  {Y}{prefix}{D} — bytes to read indicator (how many bytes to read){R}')
+                print(f'{D}  {C}10{D}  — follow marker (on each following byte){R}')
+                print(f'{D}Stored hex ({Y}{hex_str}{D}) = {Y}bytes to read{D} + {C}follow marker{D} + {G}code point{D},{R}')
+                print(f'{D}that\'s why it differs from code point ({G}U+{cp:04X}{D}).{R}')
 
             def vlen(s):
                 return len(re.sub(r'\033\[[0-9;]*m', '', s))
+            def print_table(header, rows):
+                all_r = [header] + rows
+                widths = [max(vlen(r[i]) for r in all_r) + 2 for i in range(len(header))]
+                print('┌' + '┬'.join('─'*w for w in widths) + '┐')
+                print('│' + '│'.join(f' {header[i]}{" "*(widths[i]-vlen(header[i])-2)} ' for i in range(len(header))) + '│')
+                print('├' + '┼'.join('─'*w for w in widths) + '┤')
+                for row in rows:
+                    print('│' + '│'.join(f' {row[i]}{" "*(widths[i]-vlen(row[i])-2)} ' for i in range(len(row))) + '│')
+                print('└' + '┴'.join('─'*w for w in widths) + '┘')
 
-            lw = max(vlen(l) for l, _ in rows) + 2
-            rw = max(vlen(v) for _, v in rows) + 2
-            print(f'\n┌{"─"*lw}┬{"─"*rw}┐')
-            for label, val in rows:
-                lpad = lw - vlen(label) - 2
-                rpad = rw - vlen(val) - 2
-                print(f'│ {label}{" "*lpad} │ {val}{" "*rpad} │')
-            print(f'└{"─"*lw}┴{"─"*rw}┘')
+            print()
+            print_table(
+                (f'{D}term{R}', f'{D}meaning{R}'),
+                [
+                    (f'{Y}bytes to read{R}', f'{D}how many bytes are used to store this character{R}'),
+                    (f'{C}follow marker{R}', f'{D}10 on each following byte, lets decoder find start bytes{R}'),
+                    (f'{G}code point{R}',    f'{D}the actual character bits, after stripping indicators{R}'),
+                ],
+            )
 
-            is_ascii = cp < 128
-            if is_ascii:
-                print(f'\n{D}1 byte. Leading {Y}0{D} bit is the indicator (single byte marker).{R}')
-                print(f'{D}Remaining 7 bits are the code point directly (U+{cp:04X} = 0x{cp:02X}).{R}')
-            else:
-                print(f'\n{D}{n} bytes. Along with the code point, UTF-8 stores:{R}')
-                print(f'{D}  {Y}{prefix}{D} — byte count indicator (how many bytes to read){R}')
-                print(f'{D}  {C}10{D}  — continuation marker (on each following byte){R}')
-                print(f'{D}This is why stored hex ({Y}0x{hex_str}{D}) differs from code point ({G}U+{cp:04X}{D}).{R}')
-                print(f'\n{Y}bytes to read{R}  {D}how many bytes are used to store this character{R}')
-                print(f'{C}continuation{R}  {D}without 10, jumping into the middle of a file you can\'t tell{R}')
-                print(f'              {D}if a byte is a new character or part of a previous one.{R}')
-                print(f'              {D}10 lets the decoder skip forward until it finds a start byte.{R}')
-                print(f'{G}code point{R}    {D}the actual code point bits, reassembled after stripping indicators{R}')
-
-                print(f'\n{D}UTF-8 byte patterns:{R}')
-                print(f'{D}  First byte\'s leading bits are reserved to tell how many bytes to read.{R}')
-                print(f'{D}  If a byte starts with {C}10{D}, it\'s not a starting point —{R}')
-                print(f'{D}  it\'s a continuation that belongs to the previous start byte,{R}')
-                print(f'{D}  meaning the character is stored in more than 1 byte.{R}')
-                print(f'{D}    {Y}0{D}xxxxxxx  →  1 byte to store the character (ASCII){R}')
-                print(f'{D}    {Y}110{D}xxxxx  →  2 bytes to store the character{R}')
-                print(f'{D}    {Y}1110{D}xxxx  →  3 bytes to store the character{R}')
-                print(f'{D}    {Y}11110{D}xxx  →  4 bytes to store the character{R}')
-                print(f'{D}    {C}10{D}xxxxxx  →  part of the previous sequence{R}')
+            print(f'\n{D}UTF-8 table — how many bytes used to store the character:{R}')
+            print_table(
+                (f'{D}first byte\'s reserved bits{R}', f'{D}bytes{R}'),
+                [
+                    (f'{Y}0{D}xxx xxxx{R}',     f'{D}1 byte (ASCII){R}'),
+                    (f'{Y}110{D}x xxxx{R}',     f'{D}2 bytes{R}'),
+                    (f'{Y}1110{D} xxxx{R}',     f'{D}3 bytes{R}'),
+                    (f'{Y}1111{D} {Y}0{D}xxx{R}',     f'{D}4 bytes{R}'),
+                ],
+            )
+            print(f'\n{D}each byte after the first (for multi-byte characters):{R}')
+            print_table(
+                (f'{D}reserved bits{R}', f'{D}meaning{R}'),
+                [
+                    (f'{C}10{D}xx xxxx{R}', f'{D}not a start byte, xx xxxx belongs to the previous one.{R}'),
+                    (f'', f'{D}lets decoder skip to the next start byte if it{R}'),
+                    (f'', f'{D}lands mid-sequence.{R}'),
+                ],
+            )
 
 args = sys.argv[1:]
 enc = int(args.pop(0))
 verbose = '-v' in args
 args = [a for a in args if a != '-v']
+if not args:
+    print('usage: utf-8 <char> [-v]')
+    sys.exit(1)
 char = resolve(args[0])
 
 if len(char) > 1:
-    enc_name = {8: 'utf-8', 16: 'utf-16-be', 32: 'utf-32-be'}[enc]
-    full_raw = char.encode(enc_name)
-    full_hex = ' '.join(f'{G}{b:02X}{R}' for b in full_raw)
-    cps = ' '.join(f'U+{ord(c):04X}' for c in char)
-    full_bin = ' '.join(f'{b:08b}' for b in full_raw)
-    print(f'string          {char}')
-    print(f'code points     {cps}')
-    print(f'hex encoded     {full_hex}')
-    print(f'bin encoded     {full_bin}')
-    print()
+    print(f'expected a single character, got "{char}"')
+    sys.exit(1)
 
-for i, c in enumerate(char):
-    if len(char) > 1:
-        print(f'── [{c}] ──')
-    display(enc, c, verbose)
-    if i < len(char) - 1:
-        print()
+display(enc, char, verbose)

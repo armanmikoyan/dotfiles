@@ -28,11 +28,11 @@ pubkey() {
 }
 
 # Print Unicode code point(s) for a character or string
-# Usage: codepoint ✗     → U+2717
-#        codepoint hello  → U+0068 U+0065 U+006C U+006C U+006F
-codepoint() {
+# Usage: codepoints ✗     → U+2717
+#        codepoints hello  → U+0068 U+0065 U+006C U+006C U+006F
+codepoints() {
   if [[ -z "$1" ]]; then
-    echo "Usage: codepoint <char|string>"
+    echo "Usage: codepoints <char|string>"
     return 1
   fi
   local str="$1" i
@@ -43,7 +43,7 @@ codepoint() {
 }
 
 # Char or code point → UTF encoding with colored binary breakdown
-# Usage: utf-8 ✗  |  utf-8 2717  |  utf-8 -v ✗ (verbose)
+# Usage: utf-8 ✗  |  utf-8 ✗ -v (verbose)
 utf-8()  { python3 ~/dotfiles/personal/config/utf.py 8 "$@"; }
 utf-16() { python3 ~/dotfiles/personal/config/utf.py 16 "$@"; }
 utf-32() { python3 ~/dotfiles/personal/config/utf.py 32 "$@"; }
