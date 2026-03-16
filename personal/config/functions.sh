@@ -64,11 +64,17 @@ fromcodepoints() {
   echo
 }
 
-# Char or code point → UTF encoding with colored binary breakdown
-# Usage: utf-8 ✗  |  utf-8 ✗ -v (verbose)
-utf-8()  { python3 ~/dotfiles/personal/config/utf.py 8 "$@"; }
-utf-16() { python3 ~/dotfiles/personal/config/utf.py 16 "$@"; }
-utf-32() { python3 ~/dotfiles/personal/config/utf.py 32 "$@"; }
+# Char → UTF encoded hex/bin | -v for full breakdown
+# Usage: utf-8e ✗  |  utf-8e ✗ -v (verbose)
+utf-8e()  { python3 ~/dotfiles/personal/config/utf.py 8 "$@"; }
+utf-16e() { python3 ~/dotfiles/personal/config/utf.py 16 "$@"; }
+utf-32e() { python3 ~/dotfiles/personal/config/utf.py 32 "$@"; }
+
+# UTF encoded hex bytes → char
+# Usage: utf-8d D5 A1  |  utf-16d 05 61  |  utf-32d 00 00 05 61
+utf-8d()  { python3 ~/dotfiles/personal/config/utf.py d 8 "$@"; }
+utf-16d() { python3 ~/dotfiles/personal/config/utf.py d 16 "$@"; }
+utf-32d() { python3 ~/dotfiles/personal/config/utf.py d 32 "$@"; }
 
 # URL encode/decode strings
 # Usage: urlencode "hello world"  → hello%20world

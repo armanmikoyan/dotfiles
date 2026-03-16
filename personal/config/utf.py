@@ -147,17 +147,45 @@ def display(enc, char, verbose=False):
                 ],
             )
 
+def decode(enc, hex_bytes):
+    enc_name = {8: 'utf-8', 16: 'utf-16-be', 32: 'utf-32-be'}[enc]
+    usage = f'usage: utf-{enc}d <hex bytes>  (e.g. utf-{enc}d D5 A1)'
+    try:
+        b = [int(x, 16) for x in hex_bytes]
+    except ValueError as e:
+        print(f'invalid hex: {e}')
+        print(usage)
+        sys.exit(1)
+    for x in b:
+        if x > 255:
+            print(f'invalid byte: {hex(x)} (must be 00-FF, did you pass binary?)')
+            print(usage)
+            sys.exit(1)
+    try:
+        print(bytes(b).decode(enc_name))
+    except Exception as e:
+        print(f'decode error: {e}')
+        print(usage)
+        sys.exit(1)
+
 args = sys.argv[1:]
-enc = int(args.pop(0))
-verbose = '-v' in args
-args = [a for a in args if a != '-v']
-if not args:
-    print('usage: utf-8 <char> [-v]')
-    sys.exit(1)
-char = resolve(args[0])
+mode = args.pop(0)
 
-if len(char) > 1:
-    print(f'expected a single character, got "{char}"')
-    sys.exit(1)
-
-display(enc, char, verbose)
+if mode == 'd':
+    enc = int(args.pop(0))
+    if not args:
+        print(f'usage: utf-{enc}d <hex bytes>')
+        sys.exit(1)
+    decode(enc, args)
+else:
+    enc = int(mode)
+    verbose = '-v' in args
+    args = [a for a in args if a != '-v']
+    if not args:
+        print(f'usage: utf-{enc}e <char> [-v]')
+        sys.exit(1)
+    char = resolve(args[0])
+    if len(char) > 1:
+        print(f'expected a single character, got "{char}"')
+        sys.exit(1)
+    display(enc, char, verbose)
