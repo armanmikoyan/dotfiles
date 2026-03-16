@@ -79,7 +79,27 @@ parse_top_line() {
 }
 
 # Prompt layout
-export PROMPT='${COLOR_DEF}╭─ $(parse_top_line)
+SUPER_MODE=0
+
+super() {
+  if [[ $SUPER_MODE -eq 1 ]]; then
+    SUPER_MODE=0
+    echo "super mode off"
+  else
+    SUPER_MODE=1
+    echo "super mode on"
+  fi
+}
+
+precmd() {
+  if [[ $SUPER_MODE -eq 1 ]]; then
+    export PROMPT='${COLOR_DEF}╭─ $(parse_top_line)
 ${COLOR_DEF}├─ ${COLOR_USR}[%n] ${COLOR_DIR}$(parse_path)
 ${COLOR_DEF}├─ ${COLOR_GIT}$(parse_git_branch)
 ${COLOR_DEF}╰─❯ $ '
+  else
+    export PROMPT='${COLOR_DEF}╭─ ${COLOR_USR}[%n] ${COLOR_DIR}$(parse_path)
+${COLOR_DEF}├─ ${COLOR_GIT}$(parse_git_branch)
+${COLOR_DEF}╰─❯ $ '
+  fi
+}
