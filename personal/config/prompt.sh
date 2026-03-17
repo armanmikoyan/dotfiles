@@ -63,6 +63,11 @@ parse_battery() {
   fi
 }
 
+parse_node() {
+  local v=$(node -v 2>/dev/null)
+  [[ -n "$v" ]] && echo "[node ${v}]"
+}
+
 parse_top_line() {
   local batt="$(parse_battery)"
   local cpu="$(parse_cpu)"
@@ -79,26 +84,28 @@ parse_top_line() {
 }
 
 # Prompt layout
-SUPER_MODE=0
+SYSINFO_MODE=0
 
-super() {
-  if [[ $SUPER_MODE -eq 1 ]]; then
-    SUPER_MODE=0
-    echo "super mode off"
+sysinfo() {
+  if [[ $SYSINFO_MODE -eq 1 ]]; then
+    SYSINFO_MODE=0
+    echo "sysinfo off"
   else
-    SUPER_MODE=1
-    echo "super mode on"
+    SYSINFO_MODE=1
+    echo "sysinfo on"
   fi
 }
 
 precmd() {
-  if [[ $SUPER_MODE -eq 1 ]]; then
+  if [[ $SYSINFO_MODE -eq 1 ]]; then
     export PROMPT='${COLOR_DEF}╭─ $(parse_top_line)
 ${COLOR_DEF}├─ ${COLOR_USR}[%n] ${COLOR_DIR}$(parse_path)
+${COLOR_DEF}├─ ${COLOR_SYS}$(parse_node)
 ${COLOR_DEF}├─ ${COLOR_GIT}$(parse_git_branch)
 ${COLOR_DEF}╰─❯ $ '
   else
     export PROMPT='${COLOR_DEF}╭─ ${COLOR_USR}[%n] ${COLOR_DIR}$(parse_path)
+${COLOR_DEF}├─ ${COLOR_SYS}$(parse_node)
 ${COLOR_DEF}├─ ${COLOR_GIT}$(parse_git_branch)
 ${COLOR_DEF}╰─❯ $ '
   fi
