@@ -1,3 +1,9 @@
+# English dates in terminal (system locale is Armenian)
+export LC_TIME=en_US.UTF-8
+
+# Pager: -R (color), -F (quit if fits on screen), -X (don't clear screen)
+export LESS="-RFX"
+
 # Local binaries
 export PATH="$HOME/.local/bin:$PATH"
 

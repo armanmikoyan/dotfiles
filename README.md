@@ -10,13 +10,17 @@ Personal and work shell configuration, synced across machines.
    git clone git@github.com:armanmikoyan/dotfiles.git ~/dotfiles
    ```
 
-2. Add this line to `~/.zshrc`
+2. Run the install script
 
    ```bash
-   source ~/dotfiles/init.sh
+   cd ~/dotfiles
+   ./install.sh
    ```
 
-3. Run `source ~/.zshrc`
+   This installs Homebrew, iTerm2, Cursor, nvm, and wires up `~/.zshrc` automatically.
+
+3. Open a new terminal — Oh My Zsh, plugins, symlinks, and iTerm2 preferences are set up on first shell load.
+
 4. Generate SSH key and add to GitHub (see `keygen` and `pubkey` in `personal/config/functions.sh`)
 5. Create `personal/secrets/.env` from `.env.sample`
 6. Create `work/secrets/.env` from `.env.sample`
@@ -34,6 +38,41 @@ Personal and work shell configuration, synced across machines.
 Shared settings (colors, rerere, pull rebase) live in `personal/config/.gitconfig`, symlinked to `~/.gitconfig` on first terminal open.
 
 Machine-specific identity lives in `~/.gitconfig.local` (not synced). This lets you use different name/email on work vs personal machines. A warning is shown on shell startup if the file is missing.
+
+## What `install.sh` does
+
+Idempotent — safe to re-run. Skips anything already installed.
+
+| Step | What     | How                                 |
+| :--: | -------- | ----------------------------------- |
+|  1   | Homebrew | Official install script             |
+|  2   | iTerm2   | `brew install --cask iterm2`        |
+|  3   | Cursor   | `brew install --cask cursor`        |
+|  4   | nvm      | curl install from GitHub            |
+|  5   | ~/.zshrc | Appends `source ~/dotfiles/init.sh` |
+
+## What happens on first shell load
+
+Handled automatically by the dotfiles config scripts:
+
+- **Oh My Zsh** — installed if missing (`personal/config/omz.sh`)
+- **Plugins** — `zsh-autosuggestions` and `zsh-syntax-highlighting` cloned if missing
+- **Git config** — symlinked to `~/.gitconfig`
+- **Cursor settings** — symlinked to Cursor's settings path
+- **iTerm2 preferences** — configured to load/save from `personal/config/iterm2/`
+
+## Oh My Zsh
+
+Configured in `personal/config/omz.sh`. Used only as a plugin manager — the custom prompt in `prompt.sh` is preserved (`ZSH_THEME=""`).
+
+Plugins:
+
+- `zsh-autosuggestions` — suggests commands as you type (right arrow to accept)
+- `zsh-syntax-highlighting` — colors valid commands green, invalid red
+
+## iTerm2
+
+Preferences are stored in `personal/config/iterm2/com.googlecode.iterm2.plist`. iTerm2 is configured via `defaults write` (in `personal/config/iterm2/setup.sh`) to read/write preferences from this folder. Changes made in iTerm2 are saved to the dotfiles on quit.
 
 ## Symlinks
 

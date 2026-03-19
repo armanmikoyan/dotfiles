@@ -16,15 +16,15 @@
 	remote = red
 
 [color "diff"]
-	meta = yellow bold
+	meta = white bold
 	frag = magenta bold
-	old = red
-	new = green
+	old = red bold
+	new = green bold
 
 [color "status"]
 	added = green
-	changed = yellow
-	untracked = red
+	changed = yellow bold
+	untracked = red bold
 
 [include]
 	path = ~/.gitconfig.local

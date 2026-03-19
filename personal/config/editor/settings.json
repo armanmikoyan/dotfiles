@@ -60,6 +60,25 @@
     "**/node_modules": true,
     "**/memory_bank": false
   },
+  "workbench.colorCustomizations": {
+    "terminal.ansiBlack": "#14191e",
+    "terminal.ansiRed": "#ff0000",
+    "terminal.ansiGreen": "#00ff00",
+    "terminal.ansiYellow": "#ffff00",
+    "terminal.ansiBlue": "#5c8fff",
+    "terminal.ansiMagenta": "#bf3fbd",
+    "terminal.ansiCyan": "#00c5c7",
+    "terminal.ansiWhite": "#c7c7c7",
+    "terminal.ansiBrightBlack": "#676767",
+    "terminal.ansiBrightRed": "#ff4444",
+    "terminal.ansiBrightGreen": "#00ff00",
+    "terminal.ansiBrightYellow": "#ece100",
+    "terminal.ansiBrightBlue": "#a6aaf1",
+    "terminal.ansiBrightMagenta": "#e07de0",
+    "terminal.ansiBrightCyan": "#5ffdff",
+    "terminal.ansiBrightWhite": "#feffff",
+    "terminal.foreground": "#feffff"
+  },
   "files.watcherExclude": {
     "**/.git/objects/**": true,
     "**/.git/subtree-cache/**": true,

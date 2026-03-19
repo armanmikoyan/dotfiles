@@ -1,10 +1,12 @@
 # Personal environment setup
 # Loads shell config, aliases, editor sync, and secrets
 
+# Oh My Zsh (plugin manager, no theme)
+source "$DOTFILES_DIR/personal/config/omz.sh"
+
 # Shell config
 source "$DOTFILES_DIR/personal/config/exports.sh"
 source "$DOTFILES_DIR/personal/config/functions.sh"
-source "$DOTFILES_DIR/personal/config/completion.sh"
 source "$DOTFILES_DIR/personal/config/prompt.sh"
 source "$DOTFILES_DIR/personal/config/nvm.sh"
 
@@ -15,6 +17,9 @@ source "$DOTFILES_DIR/personal/config/aliases/goto.sh"
 
 # Symlinks
 source "$DOTFILES_DIR/personal/config/symlinks.sh"
+
+# iTerm2
+source "$DOTFILES_DIR/personal/config/iterm2/setup.sh"
 
 # Secrets
 source "$DOTFILES_DIR/personal/secrets/setup.sh"

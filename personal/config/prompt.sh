@@ -1,7 +1,7 @@
 setopt PROMPT_SUBST
 
 # Colors
-COLOR_USR=$'%F{160}'       # Red
+COLOR_USR=$'%F{red}'       # Red (ANSI red, matches terminal palette)
 COLOR_DIR=$'%F{33}'        # Blue
 COLOR_GIT=$'%F{208}'       # Orange
 COLOR_TIME=$'%F{141}'      # Purple
@@ -96,7 +96,9 @@ sysinfo() {
   fi
 }
 
-precmd() {
+autoload -Uz add-zsh-hook
+
+_set_prompt() {
   if [[ $SYSINFO_MODE -eq 1 ]]; then
     export PROMPT='${COLOR_DEF}╭─ $(parse_top_line)
 ${COLOR_DEF}├─ ${COLOR_USR}[%n] ${COLOR_DIR}$(parse_path)
@@ -110,3 +112,4 @@ ${COLOR_DEF}├─ ${COLOR_GIT}$(parse_git_branch)
 ${COLOR_DEF}╰─❯ $ '
   fi
 }
+add-zsh-hook precmd _set_prompt
