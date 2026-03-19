@@ -72,7 +72,7 @@ parse_top_line() {
   local batt="$(parse_battery)"
   local cpu="$(parse_cpu)"
   local mem="$(parse_mem)"
-  local time="[%D{%b %d, %I:%M %p}]"
+  local time="[$(LC_TIME=en_US.UTF-8 date '+%b %d, %I:%M %p')]"
 
   if [[ $COLUMNS -ge 65 ]]; then
     echo "${batt} ${COLOR_SYS}${cpu} ${mem} ${COLOR_TIME}${time}"
