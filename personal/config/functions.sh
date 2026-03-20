@@ -95,3 +95,25 @@ urldecode() {
   fi
   python3 -c "import urllib.parse,sys; print(urllib.parse.unquote(sys.argv[1]))" "$1"
 }
+
+# iOS Simulator
+# Usage: simulators               → list available devices
+#        simulators iPhone 17 Pro  → boot and open that simulator
+simulators() {
+  if [[ -z "$1" ]]; then
+    echo "Available simulators:"
+    xcrun simctl list devices available | grep -E "^\s+" | sed 's/(.*)//;s/^[[:space:]]*/  /'
+    echo
+    echo 'Usage: sim <device name>'
+    return 0
+  fi
+  local name="$*"
+  local udid=$(xcrun simctl list devices available | grep "$name" | head -1 | grep -oE '[A-F0-9-]{36}')
+  if [[ -z "$udid" ]]; then
+    echo "✗ No simulator found matching: $name"
+    return 1
+  fi
+  xcrun simctl boot "$udid" 2>/dev/null
+  open -a Simulator
+  echo "✓ $name booted"
+}
