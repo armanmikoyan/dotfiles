@@ -11,7 +11,7 @@
   "security.workspace.trust.untrustedFiles": "open",
   "eslint.enable": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "always"
+    "source.fixAll.eslint": "always",
   },
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -48,7 +48,7 @@
     "**/package-lock.json": true,
     "**/yarn.lock": true,
     "**/pnpm-lock.yaml": true,
-    "**/memory_bank": false
+    "**/memory_bank": false,
   },
   "files.exclude": {
     "**/.svn": true,
@@ -58,7 +58,7 @@
     "**/Thumbs.db": true,
     "**/.git": true,
     "**/node_modules": true,
-    "**/memory_bank": false
+    "**/memory_bank": false,
   },
   "workbench.colorCustomizations": {
     "terminal.ansiBlack": "#14191e",
@@ -77,7 +77,7 @@
     "terminal.ansiBrightMagenta": "#e07de0",
     "terminal.ansiBrightCyan": "#5ffdff",
     "terminal.ansiBrightWhite": "#feffff",
-    "terminal.foreground": "#feffff"
+    "terminal.foreground": "#feffff",
   },
   "files.watcherExclude": {
     "**/.git/objects/**": true,
@@ -90,6 +90,7 @@
     "**/coverage/**": true,
     "**/.cache/**": true,
     "**/storybook-static/**": true,
-    "**/memory_bank": false
-  }
+    "**/memory_bank": false,
+  },
+  "docker.extension.enableComposeLanguageServer": false,
 }
