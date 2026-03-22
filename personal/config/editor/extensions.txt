@@ -1,3 +1,4 @@
+akamud.vscode-theme-onedark
 anysphere.remote-containers
 anysphere.remote-ssh
 anysphere.remote-wsl
@@ -13,6 +14,7 @@ dsznajder.es7-react-js-snippets
 eamodio.gitlens
 ecmel.vscode-html-css
 esbenp.prettier-vscode
+formulahendry.auto-rename-tag
 humao.rest-client
 kisstkondoros.vscode-gutter-preview
 mgmcdermott.vscode-language-babel
