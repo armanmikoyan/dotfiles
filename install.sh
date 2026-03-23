@@ -9,6 +9,8 @@ fi
 # Apps
 brew list --cask iterm2 &>/dev/null || brew install --cask iterm2
 brew list --cask cursor &>/dev/null || brew install --cask cursor
+brew list --cask google-chrome-canary &>/dev/null || brew install --cask google-chrome-canary
+brew list --cask chromium &>/dev/null || brew install --cask chromium
 
 # nvm
 if [[ ! -d "$HOME/.nvm" ]]; then

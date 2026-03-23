@@ -31,6 +31,7 @@ alias grep='grep --color=auto'
 # Open Chrome from terminal
 alias chrome='open -a "Google Chrome"'
 alias canary='open -a "Google Chrome Canary"'
+alias chromium='open -a "Chromium"'
 
 # Lock screen (sleep display immediately)
 alias afk='pmset displaysleepnow'
