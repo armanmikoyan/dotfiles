@@ -16,9 +16,6 @@ alias orc='vim ~/.zshrc'
 # Open dotfiles in Cursor
 alias odf='cursor ~/dotfiles'
 
-# Show local IP address (tries active interfaces)
-alias ip='ipconfig getifaddr en0 2>/dev/null || ipconfig getifaddr en1 2>/dev/null || ipconfig getifaddr en7 2>/dev/null || echo "no network"'
-
 # Colorized ls (macOS only)
 alias ls='ls -G'
 

@@ -104,7 +104,7 @@ simulators() {
     echo "Available simulators:"
     xcrun simctl list devices available | grep -E "^\s+" | sed 's/(.*)//;s/^[[:space:]]*/  /'
     echo
-    echo 'Usage: sim <device name>'
+    echo 'Usage: simulators <device name>'
     return 0
   fi
   local name="$*"
@@ -116,4 +116,30 @@ simulators() {
   xcrun simctl boot "$udid" 2>/dev/null
   open -a Simulator
   echo "✓ $name booted"
+}
+
+# Network info
+ip() {
+  local addr=$(ipconfig getifaddr en0 2>/dev/null || ipconfig getifaddr en1 2>/dev/null)
+  [[ -z "$addr" ]] && echo "no network" && return
+  local hex=$(ifconfig en0 2>/dev/null | awk '/netmask/ {gsub("0x","",$4); print $4}')
+  if [[ -n "$hex" ]]; then
+    local bits=0
+    for ((i=0; i<${#hex}; i++)); do
+      local d=$((16#${hex:$i:1}))
+      while ((d > 0)); do ((bits += d & 1)); ((d >>= 1)); done
+    done
+    echo "Private: ${addr}/${bits}"
+    echo "Subnet Mask:  0x${hex}"
+  else
+    echo "Private: ${addr}"
+    echo "Subnet Mask:  unknown"
+  fi
+  echo "Public:  $(curl -s ifconfig.me)"
+  local vpn=$(ifconfig 2>/dev/null | awk '/^utun/{iface=$1} /inet /{if(iface) print iface " " $2; iface=""}')
+  if [[ -n "$vpn" ]]; then
+    echo "$vpn" | while read iface vpnip; do
+      echo "VPN:     ${vpnip} (${iface%:})"
+    done
+  fi
 }
