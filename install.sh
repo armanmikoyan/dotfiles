@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 # Homebrew
 if ! command -v brew &>/dev/null; then
@@ -7,10 +6,20 @@ if ! command -v brew &>/dev/null; then
 fi
 
 # Apps
-brew list --cask iterm2 &>/dev/null || brew install --cask iterm2
-brew list --cask cursor &>/dev/null || brew install --cask cursor
-brew list --cask google-chrome-canary &>/dev/null || brew install --cask google-chrome-canary
-brew list --cask chromium &>/dev/null || brew install --cask chromium
+install_cask() {
+  if brew list --cask "$1" &>/dev/null || [[ -n "$2" && -d "/Applications/$2" ]]; then
+    echo "✓ $1 already installed"
+    return
+  fi
+  echo "Installing $1..."
+  if ! brew install --cask "$1"; then
+    echo "✗ Failed to install $1" >&2
+  fi
+}
+install_cask iterm2 "iTerm.app"
+install_cask cursor "Cursor.app"
+install_cask google-chrome@canary "Google Chrome Canary.app"
+install_cask chromium "Chromium.app"
 
 # nvm
 if [[ ! -d "$HOME/.nvm" ]]; then
