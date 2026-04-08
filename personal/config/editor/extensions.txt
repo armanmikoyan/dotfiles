@@ -17,6 +17,7 @@ ecmel.vscode-html-css
 esbenp.prettier-vscode
 evidence.evidence-vscode
 formulahendry.auto-rename-tag
+github.vscode-github-actions
 humao.rest-client
 kisstkondoros.vscode-gutter-preview
 mgmcdermott.vscode-language-babel
