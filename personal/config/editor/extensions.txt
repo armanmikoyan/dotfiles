@@ -1,3 +1,4 @@
+
 akamud.vscode-theme-onedark
 anysphere.remote-containers
 anysphere.remote-ssh
@@ -14,6 +15,7 @@ dsznajder.es7-react-js-snippets
 eamodio.gitlens
 ecmel.vscode-html-css
 esbenp.prettier-vscode
+evidence.evidence-vscode
 formulahendry.auto-rename-tag
 humao.rest-client
 kisstkondoros.vscode-gutter-preview
@@ -21,6 +23,7 @@ mgmcdermott.vscode-language-babel
 ms-azuretools.vscode-containers
 ms-azuretools.vscode-docker
 ms-kubernetes-tools.vscode-kubernetes-tools
+ms-mssql.mssql
 ms-vscode.vscode-typescript-next
 pkief.material-icon-theme
 prisma.prisma
@@ -29,5 +32,6 @@ ritwickdey.liveserver
 rvest.vs-code-prettier-eslint
 sdras.night-owl
 styled-components.vscode-styled-components
+svelte.svelte-vscode
 vscode-icons-team.vscode-icons
 xabikos.javascriptsnippets
