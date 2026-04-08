@@ -1,4 +1,3 @@
-
 akamud.vscode-theme-onedark
 anysphere.remote-containers
 anysphere.remote-ssh
@@ -17,6 +16,7 @@ ecmel.vscode-html-css
 esbenp.prettier-vscode
 evidence.evidence-vscode
 formulahendry.auto-rename-tag
+github.vscode-github-actions
 humao.rest-client
 kisstkondoros.vscode-gutter-preview
 mgmcdermott.vscode-language-babel
