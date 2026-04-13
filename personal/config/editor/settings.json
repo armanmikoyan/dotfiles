@@ -9,7 +9,6 @@
   "explorer.compactFolders": false,
   "explorer.confirmDelete": false,
   "security.workspace.trust.untrustedFiles": "open",
-  "eslint.enable": true,
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
   "editor.defaultFormatter": "oxc.oxc-vscode",
@@ -17,7 +16,6 @@
   "editor.formatOnSaveMode": "file",
   "editor.detectIndentation": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "always",
     "source.format.oxc": "always",
     "source.fixAll.oxc": "always",
   },
@@ -110,5 +108,29 @@
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "oxc.oxc-vscode",
+  },
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features",
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features",
+  },
+  "[css]": {
+    "editor.defaultFormatter": "vscode.css-language-features",
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "vscode.css-language-features",
+  },
+  "[less]": {
+    "editor.defaultFormatter": "vscode.css-language-features",
+  },
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features",
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "vscode.markdown-language-features",
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml",
   },
 }
