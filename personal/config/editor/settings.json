@@ -10,11 +10,17 @@
   "explorer.confirmDelete": false,
   "security.workspace.trust.untrustedFiles": "open",
   "eslint.enable": true,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "file",
+  "editor.detectIndentation": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "always",
+    "source.format.oxc": "always",
+    "source.fixAll.oxc": "always",
   },
-  "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "workbench.colorTheme": "Night Owl (No Italics)",
   "workbench.panel.showLabels": false,
   "workbench.panel.defaultLocation": "right",
@@ -93,4 +99,16 @@
     "**/memory_bank": false,
   },
   "docker.extension.enableComposeLanguageServer": false,
+  "[javascript]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode",
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode",
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode",
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode",
+  },
 }
