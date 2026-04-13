@@ -7,13 +7,11 @@ bradlc.vscode-tailwindcss
 christian-kohler.npm-intellisense
 christian-kohler.path-intellisense
 davidanson.vscode-markdownlint
-dbaeumer.vscode-eslint
 docker.docker
 donjayamanne.githistory
 dsznajder.es7-react-js-snippets
 eamodio.gitlens
 ecmel.vscode-html-css
-esbenp.prettier-vscode
 evidence.evidence-vscode
 formulahendry.auto-rename-tag
 github.vscode-github-actions
@@ -30,7 +28,6 @@ pkief.material-icon-theme
 prisma.prisma
 redhat.vscode-yaml
 ritwickdey.liveserver
-rvest.vs-code-prettier-eslint
 sdras.night-owl
 styled-components.vscode-styled-components
 svelte.svelte-vscode
