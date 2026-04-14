@@ -97,6 +97,11 @@
     "**/memory_bank": false,
   },
   "docker.extension.enableComposeLanguageServer": false,
+  "oxc.enable": true,
+  "oxc.lint.run": "onType",
+  "oxc.requireConfig": false,
+  "oxc.enable.oxfmt": true,
+  "oxc.enable.oxlint": true,
   "[javascript]": {
     "editor.defaultFormatter": "oxc.oxc-vscode",
   },

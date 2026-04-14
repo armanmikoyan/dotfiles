@@ -36,5 +36,10 @@ alias afk='pmset displaysleepnow'
 # Print each PATH entry on a separate line
 alias path='echo -e ${PATH//:/\\n}'
 
+# Very important aliases
+alias train='sl'
+alias matrix='cmatrix'
+alias idle='train && cmatrix';
+
 # Run dotfiles sync
 alias sync-dotfiles='$DOTFILES_DIR/sync.sh'
