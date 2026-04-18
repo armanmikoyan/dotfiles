@@ -57,7 +57,7 @@
   "files.exclude": {
     "**/.svn": true,
     "**/.hg": true,
-    "**/CVS": true,
+    "**/CVS": true, th
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
     "**/.git": true,
