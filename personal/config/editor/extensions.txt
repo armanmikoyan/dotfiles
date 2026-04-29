@@ -34,4 +34,4 @@ ritwickdey.liveserver
 sdras.night-owl
 styled-components.vscode-styled-components
 xabikos.javascriptsnippets
-svelte.svelte-vscode
+svelte.svelte-vscode #remove
