@@ -176,6 +176,16 @@ if [ -s "$tmp/new_ids" ]; then
     [ -z "$ext" ] && continue
     echo "+ $ext (new, appending to extensions.txt)"
     printf '%s\n' "$ext" >> "$EXT_FILE"
+    for cmd in "${editors[@]}"; do
+      grep -qxF "$ext" "$tmp/installed.$cmd" && continue
+      out=$("$cmd" --install-extension "$ext" 2>&1)
+      if printf '%s' "$out" | grep -qiE "not found|is not in the marketplace|failed installing"; then
+        continue
+      fi
+      echo "+ $ext (installed in $cmd)"
+      printf '%s\n' "$ext" >> "$tmp/installed.$cmd"
+      sort -fu -o "$tmp/installed.$cmd" "$tmp/installed.$cmd"
+    done
   done < "$tmp/new_ids"
 fi
 
