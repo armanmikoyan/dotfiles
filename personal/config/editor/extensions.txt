@@ -12,7 +12,6 @@ donjayamanne.githistory
 dsznajder.es7-react-js-snippets
 eamodio.gitlens
 ecmel.vscode-html-css
-evidence.evidence-vscode
 formulahendry.auto-rename-tag
 github.vscode-github-actions
 humao.rest-client
@@ -34,4 +33,3 @@ ritwickdey.liveserver
 sdras.night-owl
 styled-components.vscode-styled-components
 xabikos.javascriptsnippets
-svelte.svelte-vscode #remove
