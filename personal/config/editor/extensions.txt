@@ -21,7 +21,6 @@ mgmcdermott.vscode-language-babel
 ms-azuretools.vscode-containers
 ms-azuretools.vscode-docker
 ms-kubernetes-tools.vscode-kubernetes-tools
-ms-mssql.mssql
 ms-vscode.vscode-typescript-next
 oxc.oxc-vscode
 pkief.material-icon-theme
@@ -33,3 +32,4 @@ styled-components.vscode-styled-components
 svelte.svelte-vscode
 vscode-icons-team.vscode-icons
 xabikos.javascriptsnippets
+ms-mssql.mssql
