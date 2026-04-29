@@ -16,16 +16,6 @@ evidence.evidence-vscode
 formulahendry.auto-rename-tag
 github.vscode-github-actions
 humao.rest-client
-kisstkondoros.vscode-gutter-preview
-mgmcdermott.vscode-language-babel
-mquandalle.graphql
-ms-azuretools.vscode-containers
-ms-azuretools.vscode-docker
-ms-kubernetes-tools.vscode-kubernetes-tools
-ms-mssql.data-workspace-vscode
-ms-mssql.mssql
-ms-mssql.sql-bindings-vscode
-ms-mssql.sql-database-projects-vscode
 ms-vscode.vscode-typescript-next
 oxc.oxc-vscode
 pkief.material-icon-theme
