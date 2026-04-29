@@ -1,7 +1,5 @@
 akamud.vscode-theme-onedark
 anysphere.remote-containers
-anysphere.remote-ssh
-anysphere.remote-wsl
 apollographql.vscode-apollo
 bradlc.vscode-tailwindcss
 christian-kohler.npm-intellisense
@@ -17,13 +15,9 @@ github.vscode-github-actions
 humao.rest-client
 kisstkondoros.vscode-gutter-preview
 mgmcdermott.vscode-language-babel
-mquandalle.graphql
 ms-azuretools.vscode-containers
 ms-azuretools.vscode-docker
 ms-kubernetes-tools.vscode-kubernetes-tools
-ms-mssql.data-workspace-vscode
-ms-mssql.mssql
-ms-mssql.sql-database-projects-vscode
 ms-vscode.vscode-typescript-next
 oxc.oxc-vscode
 pkief.material-icon-theme
