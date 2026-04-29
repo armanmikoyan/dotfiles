@@ -1,7 +1,10 @@
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+1tontech.angular-material
 akamud.vscode-theme-onedark
 anysphere.remote-containers
 anysphere.remote-ssh
-anysphere.remote-wsl
 apollographql.vscode-apollo
 bradlc.vscode-tailwindcss
 christian-kohler.npm-intellisense
@@ -18,9 +21,12 @@ github.vscode-github-actions
 humao.rest-client
 kisstkondoros.vscode-gutter-preview
 mgmcdermott.vscode-language-babel
+mquandalle.graphql
 ms-azuretools.vscode-containers
 ms-azuretools.vscode-docker
 ms-kubernetes-tools.vscode-kubernetes-tools
+ms-mssql.mssql
+ms-mssql.mssql1tontech.angular-material
 ms-vscode.vscode-typescript-next
 oxc.oxc-vscode
 pkief.material-icon-theme
@@ -32,4 +38,3 @@ styled-components.vscode-styled-components
 svelte.svelte-vscode
 vscode-icons-team.vscode-icons
 xabikos.javascriptsnippets
-ms-mssql.mssql
