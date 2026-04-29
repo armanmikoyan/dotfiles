@@ -105,35 +105,35 @@ If a PR is rejected, the next sync resets to remote (changes gone from local com
 
 ### Extension sync (`personal/config/editor/sync.sh`)
 
-`extensions.txt` is the single source of truth. One extension id per line. Optional inline `# remove` marker queues an uninstall.
+`extensions.txt` is the single source of truth. One extension id per line. A trailing `# remove` marker means "never have this installed" — useful for extensions that get pulled in as dependencies but you don't want.
 
 ```text
 eamodio.gitlens
 prisma.prisma
-xabikos.javascriptsnippets # remove
+svelte.svelte-vscode # remove   # pulled in by evidence, don't want it
 ```
 
-Each `sync-dotfiles` run does:
+Each `sync-dotfiles` run:
 
-1. **Removals** — every line ending in `# remove` is uninstalled from both editors, then deleted from `extensions.txt`.
-2. **New installs** — anything installed in either editor but not in `extensions.txt` gets appended.
-3. **Propagation** — every plain entry is installed into any editor missing it (covers fresh machines and cross-editor sync). Marketplace mismatches (e.g. Cursor-only extensions in VS Code) are silently skipped per editor.
+1. **Uninstalls** every `# remove` line from both editors. The line stays in the file.
+2. **Installs** every plain line into any editor missing it. Marketplace mismatches (e.g. Cursor-only extensions in VS Code) are silently skipped per editor.
+3. **Auto-detects** newly-installed extensions in either editor and appends them to the file.
 
 #### Adding an extension
 
-Install it through Cursor or VS Code. Next sync appends it to `extensions.txt` and installs it in the other editor.
+Install it via the editor UI. Next sync appends it to `extensions.txt` and installs it in the other editor.
 
 #### Removing an extension
 
-Edit the line in `extensions.txt` and append ` # remove`:
+Append ` # remove` to its line:
 
 ```text
 xabikos.javascriptsnippets # remove
 ```
 
-Next sync uninstalls it from both editors and drops the line.
+Next (and every future) sync uninstalls it from both editors. The line stays — that's how the script keeps a dependency from silently bringing it back. To re-enable later, delete the `# remove` from the line.
 
-> Uninstalling directly from an editor (without the `# remove` marker) is ignored — `extensions.txt` still has it, so it gets reinstalled. Use `# remove` to make removals stick.
+> Uninstalling directly from an editor (without the `# remove` marker) is ignored — `extensions.txt` still has it as a plain line, so it gets reinstalled.
 
 Both editors supported — runs against whichever of `cursor`/`code` are on `$PATH`. If only one is installed, propagation is one-way but the file is still kept current.
 

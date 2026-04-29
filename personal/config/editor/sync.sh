@@ -3,14 +3,18 @@
 # Called by ~/dotfiles/sync.sh.
 #
 # Source of truth: extensions.txt
-#   eamodio.gitlens                  - kept installed in both editors
-#   xabikos.javascriptsnippets # remove   - uninstall from both editors and drop this line
+#   eamodio.gitlens                  - keep installed in both editors
+#   svelte.svelte-vscode # remove    - keep uninstalled in both editors
+#                                      (line is permanent; protects against
+#                                       dependency-pulled re-installs)
 #
 # Each sync run:
-#   1. Process lines marked '# remove': uninstall from both editors, then delete the line.
-#   2. Detect newly-installed extensions in either editor -> append to extensions.txt.
-#   3. Install every listed (un-marked) extension into any editor missing it.
-#      Extensions not in an editor's marketplace are silently skipped for that editor.
+#   1. Uninstall every "# remove" extension from any editor that still has it.
+#   2. Install every plain extension into any editor missing it.
+#      Marketplace mismatches (e.g. anysphere.* in VS Code) are silently skipped.
+#   3. Auto-detect any extension installed in either editor that isn't already
+#      in extensions.txt and append it as a new line. "# remove" lines are
+#      preserved across runs and never re-added.
 
 DOTFILES_DIR="$HOME/dotfiles"
 EDITOR_DIR="$DOTFILES_DIR/personal/config/editor"
@@ -25,85 +29,81 @@ command -v code >/dev/null 2>&1 && editors+=(code)
 tmp=$(mktemp -d) || exit 1
 trap 'rm -rf "$tmp"' EXIT
 
-for cmd in "${editors[@]}"; do
-  "$cmd" --list-extensions 2>/dev/null | sed '/^$/d' | sort -fu > "$tmp/installed.$cmd"
-done
+snapshot_installed() {
+  for cmd in "${editors[@]}"; do
+    "$cmd" --list-extensions 2>/dev/null | sed '/^$/d' | sort -fu > "$tmp/installed.$cmd"
+  done
+}
 
-# Parse extensions.txt into two lists: keep and remove.
-# Strip comments/whitespace; if the trailing comment matches '# *remove*' (case-insensitive)
-# the extension is queued for removal.
-: > "$tmp/keep"
-: > "$tmp/remove"
+snapshot_installed
+
+: > "$tmp/install_ids"
+: > "$tmp/remove_ids"
 while IFS= read -r line || [ -n "$line" ]; do
-  trimmed=$(echo "$line" | sed -E 's/^[[:space:]]+|[[:space:]]+$//g')
+  trimmed=${line%$'\r'}
+  trimmed=$(printf '%s' "$trimmed" | sed -E 's/^[[:space:]]+|[[:space:]]+$//g')
   [ -z "$trimmed" ] && continue
   case "$trimmed" in \#*) continue ;; esac
-  ext=$(echo "$trimmed" | sed -E 's/[[:space:]]*#.*$//' | sed -E 's/[[:space:]]+$//')
-  comment=$(echo "$trimmed" | sed -nE 's/^[^#]*#[[:space:]]*//p')
+
+  ext=$(printf '%s' "$trimmed" | sed -E 's/[[:space:]]*#.*$//' | sed -E 's/[[:space:]]+$//')
+  rest=$(printf '%s' "$trimmed" | sed -nE 's/^[^#]*#[[:space:]]*(.*)$/\1/p')
   [ -z "$ext" ] && continue
-  if echo "$comment" | grep -qiE '(^|[^a-z])remove([^a-z]|$)'; then
-    echo "$ext" >> "$tmp/remove"
+
+  if printf '%s' "$rest" | grep -qiE '(^|[^a-z])remove([^a-z]|$)'; then
+    printf '%s\n' "$ext" >> "$tmp/remove_ids"
   else
-    echo "$ext" >> "$tmp/keep"
+    printf '%s\n' "$ext" >> "$tmp/install_ids"
   fi
 done < "$EXT_FILE"
-sort -fu -o "$tmp/keep" "$tmp/keep"
-sort -fu -o "$tmp/remove" "$tmp/remove"
+sort -fu -o "$tmp/install_ids" "$tmp/install_ids"
+sort -fu -o "$tmp/remove_ids" "$tmp/remove_ids"
 
-# Pass 1: process removals.
-if [ -s "$tmp/remove" ]; then
+if [ -s "$tmp/remove_ids" ]; then
   while IFS= read -r ext; do
     [ -z "$ext" ] && continue
-    echo "- $ext (removing)"
     for cmd in "${editors[@]}"; do
-      if grep -qxF "$ext" "$tmp/installed.$cmd"; then
-        "$cmd" --uninstall-extension "$ext" >/dev/null 2>&1
-        grep -vxF "$ext" "$tmp/installed.$cmd" > "$tmp/installed.$cmd.new" || true
-        mv "$tmp/installed.$cmd.new" "$tmp/installed.$cmd"
-      fi
+      grep -qxF "$ext" "$tmp/installed.$cmd" || continue
+      "$cmd" --uninstall-extension "$ext" >/dev/null 2>&1
+      echo "- $ext (uninstalled from $cmd)"
     done
-    grep -vxF "$ext" "$tmp/keep" > "$tmp/keep.new" || true
-    mv "$tmp/keep.new" "$tmp/keep"
-  done < "$tmp/remove"
+  done < "$tmp/remove_ids"
 fi
 
-# Pass 2: detect newly-installed extensions in any editor (skip ones queued for removal).
-: > "$tmp/all_installed"
-for cmd in "${editors[@]}"; do
-  cat "$tmp/installed.$cmd" >> "$tmp/all_installed"
-done
-sort -fu -o "$tmp/all_installed" "$tmp/all_installed"
-
-comm -23 "$tmp/all_installed" "$tmp/keep" > "$tmp/new"
-if [ -s "$tmp/remove" ]; then
-  comm -23 "$tmp/new" "$tmp/remove" > "$tmp/new.filtered"
-  mv "$tmp/new.filtered" "$tmp/new"
-fi
-
-if [ -s "$tmp/new" ]; then
+if [ -s "$tmp/install_ids" ]; then
   while IFS= read -r ext; do
     [ -z "$ext" ] && continue
-    echo "+ $ext (new, adding to extensions.txt)"
-    echo "$ext" >> "$tmp/keep"
-  done < "$tmp/new"
-  sort -fu -o "$tmp/keep" "$tmp/keep"
+    for cmd in "${editors[@]}"; do
+      grep -qxF "$ext" "$tmp/installed.$cmd" && continue
+      out=$("$cmd" --install-extension "$ext" 2>&1)
+      if printf '%s' "$out" | grep -qiE "not found|is not in the marketplace|failed installing"; then
+        continue
+      fi
+      echo "+ $ext (installed in $cmd)"
+    done
+  done < "$tmp/install_ids"
 fi
 
-# Pass 3: install missing kept extensions; silently skip marketplace mismatches.
-while IFS= read -r ext; do
-  [ -z "$ext" ] && continue
-  for cmd in "${editors[@]}"; do
-    grep -qxF "$ext" "$tmp/installed.$cmd" && continue
-    out=$("$cmd" --install-extension "$ext" 2>&1)
-    if echo "$out" | grep -qiE "not found|is not in the marketplace|failed installing"; then
-      continue
-    fi
-    echo "+ $ext (installed in $cmd)"
-    echo "$ext" >> "$tmp/installed.$cmd"
-    sort -fu -o "$tmp/installed.$cmd" "$tmp/installed.$cmd"
-  done
-done < "$tmp/keep"
+snapshot_installed
 
-cp "$tmp/keep" "$EXT_FILE"
+cat "$tmp/install_ids" "$tmp/remove_ids" 2>/dev/null | sort -fu > "$tmp/known_ids"
+
+: > "$tmp/union_installed"
+for cmd in "${editors[@]}"; do
+  cat "$tmp/installed.$cmd" >> "$tmp/union_installed"
+done
+sort -fu -o "$tmp/union_installed" "$tmp/union_installed"
+
+comm -23 "$tmp/union_installed" "$tmp/known_ids" > "$tmp/new_ids"
+
+if [ -s "$tmp/new_ids" ]; then
+  if [ -s "$EXT_FILE" ] && [ "$(tail -c 1 "$EXT_FILE" | xxd -p)" != "0a" ]; then
+    printf '\n' >> "$EXT_FILE"
+  fi
+  while IFS= read -r ext; do
+    [ -z "$ext" ] && continue
+    echo "+ $ext (new, appending to extensions.txt)"
+    printf '%s\n' "$ext" >> "$EXT_FILE"
+  done < "$tmp/new_ids"
+fi
 
 exit 0
