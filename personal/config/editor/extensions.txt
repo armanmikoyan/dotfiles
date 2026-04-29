@@ -1,4 +1,11 @@
 
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+1tontech.angular-material
 akamud.vscode-theme-onedark
 anysphere.remote-containers
 anysphere.remote-ssh
@@ -23,6 +30,7 @@ mquandalle.graphql
 ms-azuretools.vscode-containers
 ms-azuretools.vscode-docker
 ms-kubernetes-tools.vscode-kubernetes-tools
+ms-mssql.mssql
 ms-vscode.vscode-typescript-next
 oxc.oxc-vscode
 pkief.material-icon-theme
