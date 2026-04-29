@@ -1,3 +1,10 @@
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+1tontech.angular-material
 akamud.vscode-theme-onedark
 anysphere.remote-containers
 anysphere.remote-ssh
