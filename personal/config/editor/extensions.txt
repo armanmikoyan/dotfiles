@@ -33,5 +33,4 @@ redhat.vscode-yaml
 ritwickdey.liveserver
 sdras.night-owl
 styled-components.vscode-styled-components
-svelte.svelte-vscode
 xabikos.javascriptsnippets
