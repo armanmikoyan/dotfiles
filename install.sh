@@ -20,6 +20,7 @@ install_cask iterm2 "iTerm.app"
 install_cask cursor "Cursor.app"
 install_cask google-chrome@canary "Google Chrome Canary.app"
 install_cask chromium "Chromium.app"
+install_cask visual-studio-code "Visual Studio Code.app"
 
 # nvm
 if [[ ! -d "$HOME/.nvm" ]]; then

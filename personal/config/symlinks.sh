@@ -1,5 +1,6 @@
 EDITOR_DIR="$DOTFILES_DIR/personal/config/editor"
 CURSOR_SETTINGS="$HOME/Library/Application Support/Cursor/User/settings.json"
+VSCODE_SETTINGS="$HOME/Library/Application Support/Code/User/settings.json"
 GITCONFIG="$DOTFILES_DIR/personal/config/.gitconfig"
 
 # ── Git  (personal/config/.gitconfig → ~/.gitconfig), needs .gitconfig.local for identity
@@ -18,4 +19,10 @@ fi
 [[ ! -L "$CURSOR_SETTINGS" && -f "$EDITOR_DIR/settings.json" ]] && {
   [[ -f "$CURSOR_SETTINGS" ]] && mv "$CURSOR_SETTINGS" "$CURSOR_SETTINGS.bak"
   ln -s "$EDITOR_DIR/settings.json" "$CURSOR_SETTINGS"
+}
+
+# ── VS Code (personal/config/editor/settings.json → ~/Library/Application Support/Code/User/settings.json)
+[[ ! -L "$VSCODE_SETTINGS" && -f "$EDITOR_DIR/settings.json" ]] && {
+  [[ -f "$VSCODE_SETTINGS" ]] && mv "$VSCODE_SETTINGS" "$VSCODE_SETTINGS.bak"
+  ln -s "$EDITOR_DIR/settings.json" "$VSCODE_SETTINGS"
 }
