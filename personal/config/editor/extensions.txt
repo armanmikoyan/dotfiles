@@ -24,7 +24,6 @@ ms-azuretools.vscode-docker
 ms-kubernetes-tools.vscode-kubernetes-tools
 ms-mssql.data-workspace-vscode
 ms-mssql.mssql
-ms-mssql.sql-bindings-vscode
 ms-mssql.sql-database-projects-vscode
 ms-vscode.vscode-typescript-next
 oxc.oxc-vscode
@@ -34,4 +33,5 @@ redhat.vscode-yaml
 ritwickdey.liveserver
 sdras.night-owl
 styled-components.vscode-styled-components
+svelte.svelte-vscode
 xabikos.javascriptsnippets
