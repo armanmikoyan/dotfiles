@@ -105,32 +105,35 @@ If a PR is rejected, the next sync resets to remote (changes gone from local com
 
 ### Extension sync (`personal/config/editor/sync.sh`)
 
-Two files drive extension sync:
+`extensions.txt` is the single source of truth. One extension id per line. Optional inline `# remove` marker queues an uninstall.
 
-- **`extensions.txt`** — what should be installed. Auto-managed; **do not edit manually**.
-- **`extensions.remove.txt`** — extensions to uninstall. **You add lines here manually**, sync clears it after processing.
+```text
+eamodio.gitlens
+prisma.prisma
+xabikos.javascriptsnippets # remove
+```
 
 Each `sync-dotfiles` run does:
 
-1. **Removals** — for every line in `extensions.remove.txt`: uninstall from both editors (if present), drop from `extensions.txt`, then truncate the file.
-2. **New installs** — anything installed in either editor but not in `extensions.txt` gets added to the file.
-3. **Propagation** — every entry in `extensions.txt` is installed into any editor missing it (covers fresh machines and cross-editor sync).
+1. **Removals** — every line ending in `# remove` is uninstalled from both editors, then deleted from `extensions.txt`.
+2. **New installs** — anything installed in either editor but not in `extensions.txt` gets appended.
+3. **Propagation** — every plain entry is installed into any editor missing it (covers fresh machines and cross-editor sync). Marketplace mismatches (e.g. Cursor-only extensions in VS Code) are silently skipped per editor.
 
 #### Adding an extension
 
-Install it through Cursor or VS Code. Next sync adds it to `extensions.txt` and installs it in the other editor.
+Install it through Cursor or VS Code. Next sync appends it to `extensions.txt` and installs it in the other editor.
 
 #### Removing an extension
 
-Add the extension id to `extensions.remove.txt` (one per line):
+Edit the line in `extensions.txt` and append ` # remove`:
 
-```bash
-echo "ms-mssql.mssql" >> ~/dotfiles/personal/config/editor/extensions.remove.txt
+```text
+xabikos.javascriptsnippets # remove
 ```
 
-Next sync uninstalls it from both editors, removes it from `extensions.txt`, and empties `extensions.remove.txt`.
+Next sync uninstalls it from both editors and drops the line.
 
-> Uninstalling directly from an editor (without using `extensions.remove.txt`) is ignored — `extensions.txt` still has it, so it stays installed in the other editor and will be reinstalled on a fresh machine. Use `extensions.remove.txt` to make removals stick.
+> Uninstalling directly from an editor (without the `# remove` marker) is ignored — `extensions.txt` still has it, so it gets reinstalled. Use `# remove` to make removals stick.
 
 Both editors supported — runs against whichever of `cursor`/`code` are on `$PATH`. If only one is installed, propagation is one-way but the file is still kept current.
 
