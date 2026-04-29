@@ -105,19 +105,20 @@ If a PR is rejected, the next sync resets to remote (changes gone from local com
 
 ### Extension sync (`personal/config/editor/sync.sh`)
 
-`extensions.txt` is the single source of truth. One extension id per line. A trailing `# remove` marker means "never have this installed" — useful for extensions that get pulled in as dependencies but you don't want.
+`extensions.txt` is the single source of truth. One extension id per line. A trailing `# remove` marker queues an uninstall.
 
 ```text
 eamodio.gitlens
 prisma.prisma
-svelte.svelte-vscode # remove   # pulled in by evidence, don't want it
+xabikos.javascriptsnippets # remove
 ```
 
 Each `sync-dotfiles` run:
 
-1. **Uninstalls** every `# remove` line from both editors. The line stays in the file.
+1. **Uninstalls** every `# remove` line from both editors. If a dependency blocks the uninstall, the script prints `! ext (cannot uninstall from <editor>; blocked by 'X' — mark its line with # remove too)`. When you mark the blocker too, the next sync uninstalls them in dependency order automatically.
 2. **Installs** every plain line into any editor missing it. Marketplace mismatches (e.g. Cursor-only extensions in VS Code) are silently skipped per editor.
-3. **Auto-detects** newly-installed extensions in either editor and appends them to the file.
+3. **Drops the line** from `extensions.txt` for each `# remove` extension that is no longer installed in any editor. If something is still blocked, the line stays so future syncs keep retrying.
+4. **Auto-detects** newly-installed extensions in either editor and appends them to the file.
 
 #### Adding an extension
 
@@ -131,7 +132,7 @@ Append ` # remove` to its line:
 xabikos.javascriptsnippets # remove
 ```
 
-Next (and every future) sync uninstalls it from both editors. The line stays — that's how the script keeps a dependency from silently bringing it back. To re-enable later, delete the `# remove` from the line.
+Next sync uninstalls it from both editors and drops the line. If a dependency blocks the uninstall, mark the blocker too and run again.
 
 > Uninstalling directly from an editor (without the `# remove` marker) is ignored — `extensions.txt` still has it as a plain line, so it gets reinstalled.
 
