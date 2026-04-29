@@ -105,30 +105,34 @@ If a PR is rejected, the next sync resets to remote (changes gone from local com
 
 ### Extension sync (`personal/config/editor/sync.sh`)
 
-Extensions need special handling because sync doesn't just track files — it talks to Cursor and VS Code to install/uninstall extensions and update `extensions.txt` accordingly.
+Two files drive extension sync:
 
-Supports both editors — extensions installed in either one are synced to the other. If only one editor is installed, the other is skipped.
+- **`extensions.txt`** — what should be installed. Auto-managed; **do not edit manually**.
+- **`extensions.remove.txt`** — extensions to uninstall. **You add lines here manually**, sync clears it after processing.
 
-Two-way sync between Cursor/VS Code and `extensions.txt`:
+Each `sync-dotfiles` run does:
 
-- **Install** an extension in either editor → sync adds it to the file
-- **Uninstall** an extension from both editors → sync removes it from the file
-- **New machine** → sync installs everything from the file into both editors
-- **Delete `extensions.txt`** → sync recreates it from installed extensions
+1. **Removals** — for every line in `extensions.remove.txt`: uninstall from both editors (if present), drop from `extensions.txt`, then truncate the file.
+2. **New installs** — anything installed in either editor but not in `extensions.txt` gets added to the file.
+3. **Propagation** — every entry in `extensions.txt` is installed into any editor missing it (covers fresh machines and cross-editor sync).
 
-**Do not edit `extensions.txt` manually.** Always install/uninstall through the editor UI.
+#### Adding an extension
 
-#### How uninstall detection works
+Install it through Cursor or VS Code. Next sync adds it to `extensions.txt` and installs it in the other editor.
 
-`.extensions.snapshot` (gitignored) stores what both editors had at the end of the last sync.
+#### Removing an extension
 
-| extensions.txt | Editors | .extensions.snapshot | Action                                     |
-| :------------: | :-----: | :------------------: | ------------------------------------------ |
-|     has it     | neither |        had it        | Uninstalled from editors → remove from file |
-|     has it     | neither |    didn't have it    | New machine → install in both editors       |
-|    doesn't     | has it  |          —           | Newly installed → add to file               |
+Add the extension id to `extensions.remove.txt` (one per line):
 
-**Do not edit `.extensions.snapshot`.** If deleted, sync can't detect uninstalls — it will reinstall everything from `extensions.txt` instead. The file is recreated automatically on the next run.
+```bash
+echo "ms-mssql.mssql" >> ~/dotfiles/personal/config/editor/extensions.remove.txt
+```
+
+Next sync uninstalls it from both editors, removes it from `extensions.txt`, and empties `extensions.remove.txt`.
+
+> Uninstalling directly from an editor (without using `extensions.remove.txt`) is ignored — `extensions.txt` still has it, so it stays installed in the other editor and will be reinstalled on a fresh machine. Use `extensions.remove.txt` to make removals stick.
+
+Both editors supported — runs against whichever of `cursor`/`code` are on `$PATH`. If only one is installed, propagation is one-way but the file is still kept current.
 
 ### Settings sync
 
