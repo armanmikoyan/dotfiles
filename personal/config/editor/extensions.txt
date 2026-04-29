@@ -27,4 +27,3 @@ ritwickdey.liveserver
 sdras.night-owl
 styled-components.vscode-styled-components
 xabikos.javascriptsnippets
-firefox-devtools.vscode-firefox-debug
