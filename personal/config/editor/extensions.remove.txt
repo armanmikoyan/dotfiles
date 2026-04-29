@@ -1,0 +1,2 @@
+svelte.svelte-vscode
+vscode-icons-team.vscode-icons
