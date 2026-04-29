@@ -17,7 +17,7 @@
   "editor.detectIndentation": true,
   "editor.codeActionsOnSave": {
     "source.format.oxc": "always",
-    "source.fixAll.oxc": "always",
+    "source.fixAll.oxc": "always"
   },
   "workbench.colorTheme": "Night Owl (No Italics)",
   "workbench.panel.showLabels": false,
@@ -52,7 +52,7 @@
     "**/package-lock.json": true,
     "**/yarn.lock": true,
     "**/pnpm-lock.yaml": true,
-    "**/memory_bank": false,
+    "**/memory_bank": false
   },
   "files.exclude": {
     "**/.svn": true,
@@ -62,7 +62,7 @@
     "**/Thumbs.db": true,
     "**/.git": true,
     "**/node_modules": true,
-    "**/memory_bank": false,
+    "**/memory_bank": false
   },
   "workbench.colorCustomizations": {
     "terminal.ansiBlack": "#14191e",
@@ -81,7 +81,7 @@
     "terminal.ansiBrightMagenta": "#e07de0",
     "terminal.ansiBrightCyan": "#5ffdff",
     "terminal.ansiBrightWhite": "#feffff",
-    "terminal.foreground": "#feffff",
+    "terminal.foreground": "#feffff"
   },
   "files.watcherExclude": {
     "**/.git/objects/**": true,
@@ -94,7 +94,7 @@
     "**/coverage/**": true,
     "**/.cache/**": true,
     "**/storybook-static/**": true,
-    "**/memory_bank": false,
+    "**/memory_bank": false
   },
   "docker.extension.enableComposeLanguageServer": false,
   "oxc.enable": true,
@@ -103,39 +103,42 @@
   "oxc.enable.oxfmt": true,
   "oxc.enable.oxlint": true,
   "[javascript]": {
-    "editor.defaultFormatter": "oxc.oxc-vscode",
+    "editor.defaultFormatter": "oxc.oxc-vscode"
   },
   "[javascriptreact]": {
-    "editor.defaultFormatter": "oxc.oxc-vscode",
+    "editor.defaultFormatter": "oxc.oxc-vscode"
   },
   "[typescript]": {
-    "editor.defaultFormatter": "oxc.oxc-vscode",
+    "editor.defaultFormatter": "oxc.oxc-vscode"
   },
   "[typescriptreact]": {
-    "editor.defaultFormatter": "oxc.oxc-vscode",
+    "editor.defaultFormatter": "oxc.oxc-vscode"
   },
   "[json]": {
-    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.defaultFormatter": "vscode.json-language-features"
   },
   "[jsonc]": {
-    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.defaultFormatter": "vscode.json-language-features"
   },
   "[css]": {
-    "editor.defaultFormatter": "vscode.css-language-features",
+    "editor.defaultFormatter": "vscode.css-language-features"
   },
   "[scss]": {
-    "editor.defaultFormatter": "vscode.css-language-features",
+    "editor.defaultFormatter": "vscode.css-language-features"
   },
   "[less]": {
-    "editor.defaultFormatter": "vscode.css-language-features",
+    "editor.defaultFormatter": "vscode.css-language-features"
   },
   "[html]": {
-    "editor.defaultFormatter": "vscode.html-language-features",
+    "editor.defaultFormatter": "vscode.html-language-features"
   },
   "[markdown]": {
-    "editor.defaultFormatter": "vscode.markdown-language-features",
+    "editor.defaultFormatter": "vscode.markdown-language-features"
   },
   "[yaml]": {
-    "editor.defaultFormatter": "redhat.vscode-yaml",
+    "editor.defaultFormatter": "redhat.vscode-yaml"
   },
+  "files.associations": {
+    "**/settings.json": "jsonc"
+  }
 }
