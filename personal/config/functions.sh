@@ -145,16 +145,40 @@ ip() {
 }
 
 # Thread count for a process
-# Usage: threads 12345
+# Usage: threads -p <pid>              → print once
+#        threads -p <pid> -t <seconds> → watch mode, refresh every <seconds>
 threads() {
-  if [[ -z "$1" ]]; then
-    echo "Usage: threads <pid>"
+  local pid="" interval=""
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -p) [[ -z "$2" ]] && { echo "✗ -p requires a pid"; return 1; }
+          pid="$2"; shift 2 ;;
+      -t) [[ -z "$2" ]] && { echo "✗ -t requires seconds"; return 1; }
+          interval="$2"; shift 2 ;;
+      *)  echo "Usage: threads -p <pid> [-t <seconds>]"; return 1 ;;
+    esac
+  done
+  if [[ -z "$pid" ]]; then
+    echo "Usage: threads -p <pid> [-t <seconds>]"
     return 1
   fi
-  if ! ps -p "$1" > /dev/null 2>&1; then
-    echo "✗ no such process: $1"
+  if ! ps -p "$pid" > /dev/null 2>&1; then
+    echo "✗ no such process: $pid"
     return 1
   fi
-  local count=$(ps -M -p "$1" 2>/dev/null | tail -n +2 | wc -l | tr -d ' ')
-  echo  $count 
+  _threads_count() {
+    ps -M -p "$1" 2>/dev/null | tail -n +2 | wc -l | tr -d ' '
+  }
+  if [[ -n "$interval" ]]; then
+    trap 'echo; return 0' INT
+    while ps -p "$pid" > /dev/null 2>&1; do
+      printf "\r\033[Kpid %s: %s thread(s)  [%s]" "$pid" "$(_threads_count "$pid")" "$(date +%H:%M:%S)"
+      sleep "$interval"
+    done
+    echo
+    echo "✗ process $pid exited"
+    trap - INT
+  else
+    echo "$(_threads_count "$pid")"
+  fi
 }
