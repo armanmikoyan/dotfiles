@@ -143,3 +143,18 @@ ip() {
     done
   fi
 }
+
+# Thread count for a process
+# Usage: threads 12345
+threads() {
+  if [[ -z "$1" ]]; then
+    echo "Usage: threads <pid>"
+    return 1
+  fi
+  if ! ps -p "$1" > /dev/null 2>&1; then
+    echo "✗ no such process: $1"
+    return 1
+  fi
+  local count=$(ps -M -p "$1" 2>/dev/null | tail -n +2 | wc -l | tr -d ' ')
+  echo  $count 
+}
