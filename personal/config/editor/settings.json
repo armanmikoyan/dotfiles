@@ -63,7 +63,7 @@
     "**/.git": true,
     "**/memory_bank": false,
     // Set to true to hide node_modules from the Explorer tree.
-    "**/node_modules": true
+    "**/node_modules": false
   },
   "workbench.colorCustomizations": {
     "terminal.ansiBlack": "#14191e",
