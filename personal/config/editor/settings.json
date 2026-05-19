@@ -138,5 +138,6 @@
   },
   "[yaml]": {
     "editor.defaultFormatter": "redhat.vscode-yaml"
-  }
+  },
+  "window.autoDetectColorScheme": false
 }
