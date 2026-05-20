@@ -9,3 +9,6 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # VS Code CLI
 export PATH="$PATH:$HOME/Downloads/Visual Studio Code.app/Contents/Resources/app/bin"
+
+# Codex.app CLI (bundled binary, not on PATH by default)
+export PATH="$PATH:/Applications/Codex.app/Contents/Resources"
