@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Extension sync between Cursor, VS Code, and the dotfiles repo.
+# Extension sync between Cursor, VS Code, Antigravity IDE, and the dotfiles repo.
 # Called by ~/dotfiles/sync.sh.
 #
 # Source of truth: extensions.txt
@@ -26,6 +26,11 @@ EXT_FILE="$EDITOR_DIR/extensions.txt"
 editors=()
 command -v cursor >/dev/null 2>&1 && editors+=(cursor)
 command -v code >/dev/null 2>&1 && editors+=(code)
+# Antigravity IDE bundles the same CLI surface as VS Code; app bin is not on PATH by default.
+if [[ -x "/Applications/Antigravity IDE.app/Contents/Resources/app/bin/antigravity-ide" ]]; then
+  PATH="/Applications/Antigravity IDE.app/Contents/Resources/app/bin:$PATH"
+fi
+command -v antigravity-ide >/dev/null 2>&1 && editors+=(antigravity-ide)
 [ "${#editors[@]}" -eq 0 ] && exit 0
 [ ! -f "$EXT_FILE" ] && touch "$EXT_FILE"
 

@@ -1,7 +1,7 @@
 {
   "files.autoSaveDelay": 0,
   "files.autoSave": "afterDelay",
-  "workbench.iconTheme": "vscode-icons",
+  "workbench.iconTheme": "symbols",
   "notebook.undoRedoPerCell": false,
   "editor.cursorBlinking": "smooth",
   "terminal.integrated.cursorBlinking": true,
