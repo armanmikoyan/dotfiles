@@ -960,6 +960,8 @@
 				<key>Red Component</key>
 				<real>0.74613857269287109</real>
 			</dict>
+			<key>Blend</key>
+			<real>0.49122509057971014</real>
 			<key>Blink Allowed</key>
 			<false/>
 			<key>Blinking Cursor</key>
@@ -967,7 +969,7 @@
 			<key>Blur</key>
 			<true/>
 			<key>Blur Radius</key>
-			<real>12.488414228723403</real>
+			<real>12.214020944148936</real>
 			<key>Bold Color</key>
 			<dict>
 				<key>Alpha Component</key>
@@ -1392,7 +1394,7 @@
 			<key>Title Components</key>
 			<integer>1486</integer>
 			<key>Transparency</key>
-			<real>0.51349179964539005</real>
+			<real>0.6670545212765957</real>
 			<key>Underline Color (Dark)</key>
 			<dict>
 				<key>Alpha Component</key>
