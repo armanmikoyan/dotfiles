@@ -31,7 +31,7 @@ Personal and work shell configuration, synced across machines.
    git config --file ~/.gitconfig.local user.email "you@example.com"
    ```
 
-8. Run `sync-dotfiles` to install all extensions in Cursor and VS Code
+8. Run `sync-dotfiles` to install all extensions in Cursor, VS Code, and Antigravity IDE (when installed)
 
 ## Git config
 
@@ -115,14 +115,14 @@ xabikos.javascriptsnippets # remove
 
 Each `sync-dotfiles` run:
 
-1. **Uninstalls** every `# remove` line from both editors. If a dependency blocks the uninstall, the script prints `! ext (cannot uninstall from <editor>; blocked by 'X' — mark its line with # remove too)`. When you mark the blocker too, the next sync uninstalls them in dependency order automatically.
-2. **Installs** every plain line into any editor missing it. Marketplace mismatches (e.g. Cursor-only extensions in VS Code) are silently skipped per editor.
+1. **Uninstalls** every `# remove` line from every configured editor. If a dependency blocks the uninstall, the script prints `! ext (cannot uninstall from <editor>; blocked by 'X' — mark its line with # remove too)`. When you mark the blocker too, the next sync uninstalls them in dependency order automatically.
+2. **Installs** every plain line into any editor missing it. Marketplace mismatches (e.g. Cursor-only extensions in VS Code or Antigravity IDE) are silently skipped per editor.
 3. **Drops the line** from `extensions.txt` for each `# remove` extension that is no longer installed in any editor. If something is still blocked, the line stays so future syncs keep retrying.
-4. **Auto-detects** newly-installed extensions in either editor and appends them to the file.
+4. **Auto-detects** newly-installed extensions in any editor and appends them to the file.
 
 #### Adding an extension
 
-Install it via the editor UI. Next sync appends it to `extensions.txt` and installs it in the other editor.
+Install it via the editor UI. Next sync appends it to `extensions.txt` and installs it in the other editors.
 
 #### Removing an extension
 
@@ -132,11 +132,11 @@ Append ` # remove` to its line:
 xabikos.javascriptsnippets # remove
 ```
 
-Next sync uninstalls it from both editors and drops the line. If a dependency blocks the uninstall, mark the blocker too and run again.
+Next sync uninstalls it from every editor and drops the line. If a dependency blocks the uninstall, mark the blocker too and run again.
 
-> Uninstalling directly from an editor (without the `# remove` marker) is ignored — `extensions.txt` still has it as a plain line, so it gets reinstalled.
+> Uninstalling directly from an editor (without the `# remove` marker) is ignored — `extensions.txt` still has it as a plain line, so it gets reinstalled across editors on the next sync.
 
-Both editors supported — runs against whichever of `cursor`/`code` are on `$PATH`. If only one is installed, propagation is one-way but the file is still kept current.
+All configured editors are supported — runs against whichever of `cursor`, `code`, and `antigravity-ide` are available (`antigravity-ide` is picked up from `/Applications/Antigravity IDE.app/.../bin` when present). If only some are installed, propagation is partial but `extensions.txt` stays current.
 
 ### Settings sync
 

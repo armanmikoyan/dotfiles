@@ -27,3 +27,8 @@ ritwickdey.liveserver
 sdras.night-owl
 styled-components.vscode-styled-components
 xabikos.javascriptsnippets
+anysphere.remote-ssh
+ms-python.debugpy
+ms-python.python
+ms-python.vscode-python-envs
+shopify.ruby-lsp
