@@ -16,6 +16,9 @@ alias orc='vim ~/.zshrc'
 # Open dotfiles in Cursor
 alias odf='cursor ~/dotfiles'
 
+# Open folder in Antigravity IDE (GUI); e.g. agide .   agide ~/src/foo
+alias agide='open -a "Antigravity IDE"'
+
 # Colorized ls (macOS only)
 alias ls='ls -G'
 
