@@ -19,7 +19,7 @@
     "source.format.oxc": "always",
     "source.fixAll.oxc": "always"
   },
-  "workbench.colorTheme": "Tokyo Night",
+  "workbench.colorTheme": "Night Owl",
   "workbench.panel.showLabels": false,
   "workbench.panel.defaultLocation": "right",
   "editor.minimap.enabled": true,
