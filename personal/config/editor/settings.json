@@ -140,5 +140,6 @@
     "editor.defaultFormatter": "redhat.vscode-yaml"
   },
   "window.autoDetectColorScheme": false,
-  "terminal.integrated.enableMultiLinePasteWarning": "never"
+  "terminal.integrated.enableMultiLinePasteWarning": "never",
+  "editor.minimap.showSlider": "always"
 }
