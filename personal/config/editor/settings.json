@@ -19,7 +19,7 @@
     "source.format.oxc": "always",
     "source.fixAll.oxc": "always"
   },
-  "workbench.colorTheme": "Night Owl",
+  "workbench.colorTheme": "Default Dark+",
   "workbench.panel.showLabels": false,
   "workbench.panel.defaultLocation": "right",
   "editor.minimap.enabled": true,
