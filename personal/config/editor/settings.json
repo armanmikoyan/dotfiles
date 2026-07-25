@@ -121,6 +121,11 @@
   "[jsonc]": {
     "editor.defaultFormatter": "vscode.json-language-features"
   },
+  "css.lint.unknownAtRules": "ignore",
+  "markdownlint.enable": false,
+  "markdownlint.config": {
+    "default": false
+  },
   "[css]": {
     "editor.defaultFormatter": "vscode.css-language-features"
   },

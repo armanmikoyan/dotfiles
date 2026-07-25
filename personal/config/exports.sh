@@ -8,7 +8,7 @@ export LESS="-RFX"
 export PATH="$HOME/.local/bin:$PATH"
 
 # VS Code CLI
-export PATH="$PATH:$HOME/Downloads/Visual Studio Code.app/Contents/Resources/app/bin"
+export PATH="$HOME/Downloads/Visual Studio Code.app/Contents/Resources/app/bin:$PATH"
 
 # Antigravity IDE CLI (same flags as code: --install-extension, --list-extensions, …)
 export PATH="$PATH:/Applications/Antigravity IDE.app/Contents/Resources/app/bin"
