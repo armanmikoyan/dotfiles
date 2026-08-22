@@ -123,9 +123,6 @@
   },
   "css.lint.unknownAtRules": "ignore",
   "markdownlint.enable": false,
-  "markdownlint.config": {
-    "default": false
-  },
   "[css]": {
     "editor.defaultFormatter": "vscode.css-language-features"
   },
@@ -146,5 +143,6 @@
   },
   "window.autoDetectColorScheme": false,
   "terminal.integrated.enableMultiLinePasteWarning": "never",
-  "explorer.confirmPasteNative": false
+  "explorer.confirmPasteNative": false,
+  "cursor.composer.queueMessageDefaultBehavior": "steer"
 }
