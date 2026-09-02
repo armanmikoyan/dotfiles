@@ -146,5 +146,13 @@
   },
   "window.autoDetectColorScheme": false,
   "terminal.integrated.enableMultiLinePasteWarning": "never",
-  "explorer.confirmPasteNative": false
+  "explorer.confirmPasteNative": false,
+  "yaml.disableSchemaDetection": [
+    "**/.github/workflows/*.yml",
+    "**/.github/workflows/*.yaml",
+    "**/.gitea/workflows/*.yml",
+    "**/.gitea/workflows/*.yaml",
+    "**/.forgejo/workflows/*.yml",
+    "**/.forgejo/workflows/*.yaml"
+  ]
 }
