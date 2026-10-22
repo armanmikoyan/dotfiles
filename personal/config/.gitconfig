@@ -28,3 +28,4 @@
 
 [include]
 	path = ~/.gitconfig.local
+	path = /Users/arman/.config/scribe/pnpm-github.gitconfig
